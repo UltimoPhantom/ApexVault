@@ -30,6 +30,19 @@ app.post('/stocks', async (req, res) => {
     }
 });
 
+app.get('/stocks', async (req, res) => {
+    try {
+        const stock = await Stock.find({})
+        console.log(stock);
+        console.log(typeof(stock));
+        return res.status(200).send(stock)
+    }
+    catch(error) {
+        console.log(error);
+        res.status(500).send({ message: error.message });
+    }
+})
+
 mongoose
     .connect(mongodbURl)
     .then(() => {
