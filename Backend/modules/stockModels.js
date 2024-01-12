@@ -1,0 +1,15 @@
+// modules/stockModels.js
+import mongoose from "mongoose";
+
+export const stockSchema = mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    price: {
+        type: Number,
+        required: true
+    }
+});
+
+export const Stock = mongoose.model('Stock', stockSchema);
