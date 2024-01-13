@@ -57,6 +57,20 @@ app.get('/stocks/:id', async (req, res) => {
     }
 })
 
+//Updating
+app.put('/stocks/:id', async (req, res) => {
+    try {
+        const { id } = req.params 
+        const result = await Stock.findByIdAndUpdate(id, req.body);
+        console.log("Req body: ", req.body)
+
+        res.status(200).send({ message: "Stock updated successfully! "})
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({ message: error.message })
+    }
+})
+
 mongoose
     .connect(mongodbURl)
     .then(() => {
