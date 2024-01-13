@@ -71,6 +71,19 @@ app.put('/stocks/:id', async (req, res) => {
     }
 })
 
+//Delete One
+app.delete('/stocks/:id', async (req, res) => {
+    try {
+        const { id } = req.params
+        const result = await Stock.findByIdAndDelete(id)
+        res.status(200).send({ message: "Deleted! "})
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({ message: error.message })
+    }
+})
+
 mongoose
     .connect(mongodbURl)
     .then(() => {
