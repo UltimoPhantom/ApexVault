@@ -30,6 +30,7 @@ app.post('/stocks', async (req, res) => {
     }
 });
 
+//Get all Stocks
 app.get('/stocks', async (req, res) => {
     try {
         const stock = await Stock.find({})
@@ -40,6 +41,19 @@ app.get('/stocks', async (req, res) => {
     catch(error) {
         console.log(error);
         res.status(500).send({ message: error.message });
+    }
+})
+
+//Get one stock
+app.get('/stocks/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const stock = await Stock.findById(id)
+        console.log(stock);
+        return res.status(200).send(stock)
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ message: error.message })
     }
 })
 
