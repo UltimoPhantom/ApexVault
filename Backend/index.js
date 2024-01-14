@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-import { PORT, mongodbURl } from './config.js';
+import { PORT, mongodbUR2, mongodbURl } from './config.js';
 import { Stock } from "./modules/stockModels.js";
 import stocksRoute from './routes/stocksRoute.js'; // Corrected import path
 import cors from 'cors'
@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 app.use('/stocks', stocksRoute);
 
 mongoose
-    .connect(mongodbURl)
+    .connect(mongodbUR2)
     .then(() => {
         console.log("Connected to DB!");
 
