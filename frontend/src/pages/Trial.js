@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom';
 
 const Trial = () => {
   return (
-    <div className='center justify-center ml-52 mt-52 '>
-        <a className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+    <div className='center justify-center'>
+        <a className="block max-w-sm p-6 bg-white border border-gray-200 rounded-3xl shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 hover:rounded-xl transition-all duration-300">
         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white justify-between">Noteworthy </h5>
         <p className="font-extrabold text-zinc-300 text-6xl">₹2450</p>
         <div className='flex-row-reverse flex'>
