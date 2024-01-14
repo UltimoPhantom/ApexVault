@@ -1,10 +1,23 @@
-import './App.css';
+// App.js or another component file
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './pages/Home';
+import ShowStocks from './pages/ShowStocks';
+import CreateStocks from './pages/CreateStocks';
+import EditStocks from './pages/EditStock';
+import DeleteStocks from './pages/DeleteStocks';
 
 function App() {
   return (
-    <div className="App text-blue-700">
-      <h1>Hello World</h1>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/stocks/create" element={<CreateStocks />} />
+        <Route path="/stocks/details/:id" element={<ShowStocks />} />
+        <Route path="/stocks/edit/:id" element={<EditStocks />} />
+        <Route path="/stocks/delete/:id" element={<DeleteStocks />} />
+      </Routes>
+    </Router>
   );
 }
 
