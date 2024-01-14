@@ -9,7 +9,10 @@ const app = express();
 
 app.use(express.json());
 
-app.use(cors())
+app.use(cors({
+    origin: 'https://localhost:3000', // Replace with the actual origin of your frontend
+    credentials: true,
+}));
 
 app.get('/', (req, res) => {
     console.log(req);
@@ -19,7 +22,7 @@ app.get('/', (req, res) => {
 app.use('/stocks', stocksRoute);
 
 mongoose
-    .connect(mongodbUR2)
+    .connect(mongodbURl)
     .then(() => {
         console.log("Connected to DB!");
 
