@@ -4,7 +4,7 @@ import { BsInfoCircle } from 'react-icons/bs';
 import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
-const stockDetail = ({ name, price, id }) => {
+const stockDetail = ({ name, price, id, quantity }) => {
   return (
     <div className='center justify-center mx-4'>
       <a className="block max-w-sm p-6 bg-white border border-gray-200 rounded-3xl shadow-xl drop-shadow-2xl hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 hover:rounded-xl transition-all duration-300 hover:shadow-none">
@@ -12,7 +12,7 @@ const stockDetail = ({ name, price, id }) => {
         <p className="font-extrabold text-zinc-300 text-6xl">{`₹${price}`}</p>
         <div className='flex items-center justify-between'>
         <div className='flex items-center  mt-6'>
-          <h2 className='text-cyan-300 mr-1'>Q: 12</h2>
+          <h2 className='text-cyan-300 mr-1'>Q: {`₹${quantity}`}</h2>
         </div>
         <div className='flex items-center mt-6'>
           <Link to={`/stocks/delete/${id}`}>
