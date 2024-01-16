@@ -10,6 +10,8 @@ const Home = () => {
   const [stocks, setStocks] = useState([])
   const [loading, setLoading] = useState(false)
   const [price, setPrice] = useState(0)
+  const [percent, setPercent] = useState(0)
+  const [sign, setSign] = useState(true)
 
   useEffect(() => {
     setLoading(true);
@@ -26,32 +28,36 @@ const Home = () => {
         setLoading(false);
       });
   }, []);
-  
+
 
   return (
     <div className='p-4'>
-      <div className='flex justify-between items-center flex-col'>
-        <h1 className='text-3xl my-6 font-black center'> My Portfolio </h1>
-        <Link to='/stocks/create'>
-          <MdOutlineAddBox className='text-sky-800 text-4xl hover:text-sky-900' />
-        </Link>
-      </div>
       {loading ? (
         <Spinner />
       ) : (
-        <div className='w-full grid grid-cols-1 gap-1 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-5 my-8'>
-          {stocks && stocks.length > 0 ? (
-            stocks.map((stock, index) => (
-              <Trial key={index} name={stock.name} price={stock.price} id={stock.id} quantity={stock.quantity} />
-            ))
-          ) : (
-            <p className='text-center'>No stocks available</p>
-          )}
+        <div>
+          <div className='flex justify-between items-center'>
+            <h1 className='text-3xl my-6 font-black center'> My Portfolio </h1>
+            <h1 className='text-3xl bold text-green-600'>+12300</h1>
+            <h1 className='text-3xl bold text-green-600'>+12%</h1>
+            <Link to='/stocks/create'>
+              <MdOutlineAddBox className='text-sky-800 text-4xl hover:text-sky-900' />
+            </Link>
+          </div>
+          <div className='w-full grid grid-cols-1 gap-1 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-5 my-8'>
+            {stocks && stocks.length > 0 ? (
+              stocks.map((stock, index) => (
+                <Trial key={index} name={stock.name} price={stock.price} id={stock.id} quantity={stock.quantity} />
+              ))
+            ) : (
+              <p className='text-center'>No stocks available</p>
+            )}
+          </div>
         </div>
       )}
     </div>
   );
-  
+
 };
 
 export default Home;
