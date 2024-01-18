@@ -3,6 +3,7 @@ import pymongo
 from dotenv import load_dotenv
 from datetime import date
 from jugaad_data.nse import stock_df
+from getPrice import getPrice
 
 load_dotenv()
 
@@ -26,4 +27,6 @@ collection = db["stocks"]
 ### Finding all Docs ###
 allDocs = collection.find()
 for doc in allDocs:
-    print(doc)
+    stock_name = doc['name']
+    print(stock_name, getPrice(stock_name))
+    
