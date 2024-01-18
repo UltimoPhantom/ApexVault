@@ -27,6 +27,8 @@ collection = db["stocks"]
 ### Finding all Docs ###
 allDocs = collection.find()
 for doc in allDocs:
+    stock_id = doc['_id']
     stock_name = doc['name']
-    print(stock_name, getPrice(stock_name))
-    
+    current_price = getPrice(stock_name)
+    collection.update_one({"_id": stock_id}, {"$set": {"LTP": current_price}})
+        
