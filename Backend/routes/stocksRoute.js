@@ -6,7 +6,7 @@ const router = express.Router();
 // Route to save new stocks
 router.post('/', async (req, res) => {
     try {
-        const { name, price, quantity } = req.body;
+        const { name, price, quantity, LTP } = req.body;
 
         if (!name || !price) {
             return res.status(400).send({ message: "Name and price are required fields." });
@@ -15,7 +15,8 @@ router.post('/', async (req, res) => {
         const newStock = {
             name: name,
             price: price,
-            quantity: quantity
+            quantity: quantity,
+            LTP: LTP
         };
 
         const stock = await Stock.create(newStock);

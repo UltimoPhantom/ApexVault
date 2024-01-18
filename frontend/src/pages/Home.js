@@ -1,51 +1,77 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
+import { MdOutlineAddBox } from 'react-icons/md';
 import Spinner from '../components/Spinner';
-import { useState, useEffect } from 'react';
 import Trial from '../components/Stock';
 
 const Home = () => {
-    const [stocks, setStocks] = useState([])
-    const [loading, setLoading] = useState(false)
-    const [price, setPrice] = useState(0)
-    const [percent, setPercent] = useState(0)
-    const [sign, setSign] = useState(true)
+    const [stocks, setStocks] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    const fetchStocks = () => {
+        return axios.get('http://localhost:5555/stocks')
+            .then((response) => response.data)
+            .catch((error) => {
+                console.error("Error fetching stocks:", error);
+                throw error; // Propagate the error to the calling function if needed
+            });
+    };
+
+    const fetchStockPrices = async (stocks) => {
+        const pricePromises = stocks.map(async (stock) => {
+            try {
+                const symbol = encodeURIComponent(stock.name);
+                const apiUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}.BSE&outputsize=compact&apikey=6SEW4476O3T6NK83`;
+    
+                const response = await axios.get(apiUrl, {
+                    headers: {
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
+                    },
+                });
+    
+                const timeSeries = response.data["Time Series (Daily)"];
+                console.log(timeSeries)
+    
+                if (timeSeries) {
+                    const firstDay = Object.keys(timeSeries)[0];
+                    const val = timeSeries[firstDay]["4. close"];
+    
+                    console.log(`Stock: ${stock.name}, Price: ${val}`);
+                    return { name: stock.name, price: val };
+                } else {
+                    console.error(`Time Series (Daily) not found for ${stock.name} in the response.`);
+                    return null; // Return null to handle the error without throwing
+                }
+            } catch (error) {
+                console.error(`Error fetching stock price for ${stock.name}:`, error);
+                return null; // Return null to handle the error without throwing
+            }
+        });
+    
+        return Promise.all(pricePromises);
+    };
 
     useEffect(() => {
-        setLoading(true);
-        axios
-            .get('http://localhost:5555/stocks')
-            .then((response) => {
-                setStocks(response.data);
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                const fetchedStocks = await fetchStocks();
+                setStocks(fetchedStocks);
 
+                const stockPrices = await fetchStockPrices(fetchedStocks);
+                // Do something with the stock prices if needed
+                console.log('Stock Prices:', stockPrices);
 
-                axios.get('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=SUZLON.BSE&outputsize=compact&apikey=C2JK8QJK59J7I616')
-                    .then((response) => {
-                        console.log(response.data);
-
-                        // Assuming the response structure is similar to the previous example
-                        const timeSeries = response.data["Time Series (Daily)"];
-                        if (timeSeries) {
-                            const firstDay = Object.keys(timeSeries)[0];
-                            const val = timeSeries[firstDay]["4. close"];
-                            console.log(val);
-                        } else {
-                            console.error("Time Series (Daily) not found in the response.");
-                        }
-                    })
-                    .catch((error) => {
-                        console.error("Error fetching data:", error);
-                    });
-
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            } finally {
                 setLoading(false);
-            })
-            .catch((error) => {
-                console.log(error);
-                setLoading(false);
-            });
-    }, []);
+            }
+        };
+
+        fetchData();
+    }, []); // <- Ensure that the dependency array is empty to run only once on mount
 
 
     return (
