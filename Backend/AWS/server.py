@@ -1,6 +1,8 @@
 import os
 import pymongo
 from dotenv import load_dotenv
+from datetime import date
+from jugaad_data.nse import stock_df
 
 load_dotenv()
 
@@ -11,13 +13,17 @@ db = client["Stocks"]
 
 collection = db["stocks"]
 
-newDoc = {
-    "name": "HDFCBANK",
-    "price": 1550,
-    "quantity": 10,
-    "LTP": 1450
-}
+###  Adding new Docs ###
+# newDoc = {
+#     "name": "HDFCBANK",
+#     "price": 1550,
+#     "quantity": 10,
+#     "LTP": 1450
+# }
 
-collection.insert_one(newDoc)
+# collection.insert_one(newDoc)
 
-
+### Finding all Docs ###
+allDocs = collection.find()
+for doc in allDocs:
+    print(doc)
