@@ -1,3 +1,7 @@
+'''
+    This script is designed to run on AWS Lambda.
+    It may include Lambda-specific configurations or features.
+'''
 import os
 import pymongo
 from dotenv import load_dotenv

@@ -1,3 +1,7 @@
+'''
+    This script is designed to run on AWS Lambda.
+    It may include Lambda-specific configurations or features.
+'''
 import datetime
 from datetime import date as dt_date  
 from jugaad_data.nse import stock_df
