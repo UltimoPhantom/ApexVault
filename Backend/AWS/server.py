@@ -1,8 +1,6 @@
 import os
 import pymongo
 from dotenv import load_dotenv
-from datetime import date
-from jugaad_data.nse import stock_df
 from getPrice import getPrice
 
 load_dotenv()
@@ -14,21 +12,18 @@ db = client["Stocks"]
 
 collection = db["stocks"]
 
-###  Adding new Docs ###
-# newDoc = {
-#     "name": "HDFCBANK",
-#     "price": 1550,
-#     "quantity": 10,
-#     "LTP": 1450
-# }
-
-# collection.insert_one(newDoc)
-
-### Finding all Docs ###
 allDocs = collection.find()
+invested_total = 0
+current_total = 0
+
 for doc in allDocs:
     stock_id = doc['_id']
     stock_name = doc['name']
+    invested_total += doc['quantity'] * doc['price']
     current_price = getPrice(stock_name)
+    current_total += doc['quantity'] * current_price
     collection.update_one({"_id": stock_id}, {"$set": {"LTP": current_price}})
-        
+    print(stock_name, " ✔️")
+
+print("Invested: ", invested_total)
+print("Current Total: ", current_total)

@@ -10,10 +10,9 @@ def getPrice(stockName):
     current_date_str = x.strftime("%Y-%m-%d")  
 
     # If fetched before market opens(before 9am), day is set to yesterday
-    if int(hour) < 9:
-        current_date_obj = dt_date.fromisoformat(current_date_str)
-        current_date_obj -= datetime.timedelta(days=1)
-        current_date_str = current_date_obj.strftime("%Y-%m-%d")
+    current_date_obj = dt_date.fromisoformat(current_date_str)
+    current_date_obj -= datetime.timedelta(days=1)
+    current_date_str = current_date_obj.strftime("%Y-%m-%d")
 
     #Fetching..
     try:
