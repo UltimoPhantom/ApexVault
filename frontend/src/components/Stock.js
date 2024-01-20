@@ -4,7 +4,7 @@ import { BsInfoCircle } from 'react-icons/bs';
 import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
-const stockDetail = ({ name, price, id, quantity }) => {
+const stockDetail = ({ name, price, id, quantity, LTP }) => {
   return (
     <div className='center justify-center mx-4 group'>
       <a className="block max-w-2xl p-6 bg-white border border-gray-200 rounded-3xl shadow-xl drop-shadow-2xl hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 hover:rounded-xl transition-all duration-300 hover:shadow-none">
@@ -14,7 +14,7 @@ const stockDetail = ({ name, price, id, quantity }) => {
 
           <p className='justify-center center text-green-500 text-xl'>+12%</p>
         </div>
-        <p className="font-extrabold text-zinc-300 text-6xl ">{`₹${price}`}</p>
+        <p className="font-extrabold text-zinc-300 text-6xl ">{`₹${LTP}`}</p>
 
         <div className='flex items-center justify-between'>
 

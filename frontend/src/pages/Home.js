@@ -5,7 +5,7 @@ import { MdOutlineAddBox } from 'react-icons/md';
 import Spinner from '../components/Spinner';
 import Trial from '../components/Stock';
 const AWS = require('aws-sdk')
-const aws_api_url = 'https://cn2sizf3pi.execute-api.ap-southeast-2.amazonaws.com/default/myFunction'
+const aws_api_url = 'https://ddwtmrp2ib.execute-api.ap-southeast-2.amazonaws.com/default/apexValue_9'
 
 
 const Home = () => {
@@ -21,6 +21,7 @@ const Home = () => {
                 throw error;
             });
     };
+
 
     const callLambda = async () => {
         try {
@@ -74,7 +75,7 @@ const Home = () => {
                     <div className='w-full grid grid-cols-1 gap-1 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-5 my-8'>
                         {stocks && stocks.length > 0 ? (
                             stocks.map((stock, index) => (
-                                <Trial key={index} name={stock.name} price={stock.price} id={stock.id} quantity={stock.quantity} />
+                                <Trial key={index} name={stock.name} price={stock.price} id={stock.id} quantity={stock.quantity} LTP={stock.LTP} />
                             ))
                         ) : (
                             <p className='text-center'>No stocks available</p>
