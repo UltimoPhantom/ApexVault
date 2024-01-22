@@ -13,6 +13,10 @@ export const stockSchema = mongoose.Schema({
     quantity: {
         type: Number,
         required: true
+    },
+    LTP: {
+        type: Number,
+        required: true
     }
 });
 
