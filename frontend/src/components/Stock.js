@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 const stockDetail = ({ name, price, id, quantity, LTP }) => {
   return (
 <div className='center justify-center mx-4 group mb-4'>
-  <a className="block max-w-2xl p-6 bg-white border border-gray-200 rounded-3xl shadow-xl drop-shadow-2xl hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 hover:rounded-xl transition-all duration-300 hover:shadow-none">
+  <a className="block max-w-2xl p-6 bg-white border border-gray-200 rounded-3xl shadow-xl drop-shadow-2xl hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 hover:rounded-xl transition-all duration-300 hover:shadow-none min-w-fit	mb-4">
 
     <div className='flex flex-row justify-between'>
       <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white justify-between">{name}</h5>

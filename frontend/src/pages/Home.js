@@ -42,10 +42,8 @@ const Home = () => {
                 setStocks(fetchedStocks);
 
 
-                const calLamb = await callLambda();
-                console.log(calLamb)
-                setPrice(calLamb)
-                console.log("Object123123:", price)
+                // const calLamb = await callLambda();
+                // console.log(calLamb)
 
             } catch (error) {
                 console.error("Error fetching data:", error);
