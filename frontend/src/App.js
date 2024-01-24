@@ -6,7 +6,7 @@ import ShowStocks from './pages/ShowStocks';
 import CreateStocks from './pages/CreateStocks';
 import EditStocks from './pages/EditStock';
 import DeleteStocks from './pages/DeleteStocks';
-import SelectWithSearch from './components/SelectWithSearch';
+import Login from './pages/Login';
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
         <Route path="/stocks/details/:id" element={<ShowStocks />} />
         <Route path="/stocks/edit/:id" element={<EditStocks />} />
         <Route path="/stocks/delete/:id" element={<DeleteStocks />} />
-        <Route path="/stocks/compTest" element={<SelectWithSearch />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </Router>
   );

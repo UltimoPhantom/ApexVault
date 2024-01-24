@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 import { PORT, mongodbUR2, mongodbURl } from './config.js';
 import { Stock } from "./modules/stockModels.js";
 import stocksRoute from './routes/stocksRoute.js'; // Corrected import path
+import userRoute from './routes/user.js'
 import cors from 'cors'
-
 const app = express();
 
 app.use(express.json());
@@ -20,6 +20,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/stocks', stocksRoute);
+app.use('/user', userRoute);
 
 mongoose
     .connect(mongodbURl)
