@@ -1,4 +1,5 @@
 import express from "express";
+import { User } from "../modules/userModels.js";
 
 const router = express.Router();
 
@@ -9,7 +10,15 @@ router.post('/login', async (req, res) => {
 
 //Signuo
 router.post('/signup', async (req, res) => {
-    res.json({mssg: 'Signup User !! 🎊''})
+    const {email, password} = req.body
+    try {  
+        const user = await User.signup(email, password)
+
+        res.status(200).json({email, user})
+    } catch(error) {
+        res.status(400).json({error: error.message})
+    }
+
 })
 
 export default router;
