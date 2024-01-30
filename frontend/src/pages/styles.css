@@ -8,7 +8,8 @@
     align-items: center;
     min-height: 100vh;
     font-family: 'Jost', sans-serif;
-    background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+    background: rgb(255,109,109);
+    background: linear-gradient(104deg, rgba(255,109,109,1) 12%, rgba(9,13,121,0.8688725490196079) 52%, rgba(0,212,255,1) 100%);
   }
   
   .mmain {
@@ -16,7 +17,7 @@
     height: 500px;
     background: red;
     overflow: hidden;
-    background: url("https://doc-08-2c-docs.googleusercontent.com/docs/securesc/68c90smiglihng9534mvqmq1946dmis5/fo0picsp1nhiucmc0l25s29respgpr4j/1631524275000/03522360960922298374/03522360960922298374/1Sx0jhdpEpnNIydS4rnN4kHSJtU1EyWka?e=view&authuser=0&nonce=gcrocepgbb17m&user=03522360960922298374&hash=tfhgbs86ka6divo3llbvp93mg4csvb38") no-repeat center/ cover;
+    background: url("https://unsplash.com/photos/black-and-gray-rectangular-device--j6aqzlHxNk") no-repeat center/ cover;
     border-radius: 10px;
     box-shadow: 5px 20px 50px #000;
   }
@@ -124,4 +125,8 @@
     color: chartreuse;
     order: 1; /* Set the order property to 1 to position it after .loginButtons */
     margin-top: 10px; /* Add some margin to separate it from the previous element */
+}
+
+.mmain:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6); /* /* Whiteish thick border on hover */
 }
