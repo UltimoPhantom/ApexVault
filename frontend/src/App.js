@@ -13,11 +13,11 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/stocks/create" element={<CreateStocks />} />
         <Route path="/stocks/details/:id" element={<ShowStocks />} />
         <Route path="/stocks/edit/:id" element={<EditStocks />} />
         <Route path="/stocks/delete/:id" element={<DeleteStocks />} />
-        <Route path="/login" element={<Login />} />
       </Routes>
     </Router>
   );

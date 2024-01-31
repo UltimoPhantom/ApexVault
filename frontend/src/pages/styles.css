@@ -10,6 +10,7 @@
     font-family: 'Jost', sans-serif;
     background: rgb(255,109,109);
     background: linear-gradient(104deg, rgba(255,109,109,1) 12%, rgba(9,13,121,0.8688725490196079) 52%, rgba(0,212,255,1) 100%);
+    flex-direction: column;
   }
   
   .mmain {
@@ -129,4 +130,9 @@
 
 .mmain:hover {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6); /* /* Whiteish thick border on hover */
+}
+
+.error {
+  display: flex;
+  margin-top: 30px;
 }
