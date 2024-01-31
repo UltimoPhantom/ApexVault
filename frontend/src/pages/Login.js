@@ -4,13 +4,15 @@ import React from 'react';
 import './styles.css'; // Make sure to import your CSS file
 import { useState } from 'react';
 import { useSignup } from '../hooks/useSignup';
+import { useLogin } from '../hooks/useLogin';
 
 
 function Login() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const { signup, error, isLoading } = useSignup()
-	// const { login, error2, isLoading2 } = useLogin()
+	const { login, errorL, isLoadingL } = useLogin()
+	// const { login, errorL, isLoading2 } = useLogin()
 
 	const handleSignup = async (e) => {
 		e.preventDefault();
@@ -26,17 +28,16 @@ function Login() {
 	};
 
 	const handleLogin = async (e) => {
-		// e.preventDefault();
-		// await login(email, password)
+		e.preventDefault();
+		await login(email, password)
 
-		// console.log(email, password)
-		// setEmail('')
-		// setPassword('')
+		console.log(email, password)
+		setEmail('')
+		setPassword('')
 
-		// if(error2) {
-		// 	console.log(error2);
-		// 	alert(error2)		
-		// }
+		if(errorL) {
+			console.log(errorL);
+		}
 	};
 
 
@@ -70,12 +71,13 @@ function Login() {
 						<input className='inputStyle' type="password" name="pswd" placeholder="Password" value={password}
 							onChange={(e) => setPassword(e.target.value)}
 						/>
-						<button className='buttonStlye' disabled={isLoading}>Login</button>
+						<button className='buttonStlye' disabled={isLoadingL}>Login</button>
 					</form>
 				</div>
 			</div>
 
 		{error && <div className='error'>{error}</div>}
+		{errorL && <div className='error'>{errorL}</div>}
 		</div>
 	);
 }
