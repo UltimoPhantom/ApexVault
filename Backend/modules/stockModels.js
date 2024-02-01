@@ -17,6 +17,10 @@ export const stockSchema = mongoose.Schema({
     LTP: {
         type: Number,
         required: true
+    },
+    user_id: {
+        type: String,
+        required: true
     }
 });
 
