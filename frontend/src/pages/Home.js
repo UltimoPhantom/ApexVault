@@ -5,6 +5,7 @@ import { MdOutlineAddBox } from 'react-icons/md';
 import Spinner from '../components/Spinner';
 import Trial from '../components/Stock';
 import { useAuthContext } from '../hooks/useAuthContext';
+import LogoutButton from '../components/LogoutButton';
 
 const AWS = require('aws-sdk')
 const aws_api_url = 'https://ddwtmrp2ib.execute-api.ap-southeast-2.amazonaws.com/default/apexValue_9'
@@ -27,6 +28,8 @@ const Home = () => {
                 throw error;
             });
     };
+
+    
 
     const callLambda = async () => {
         try {
@@ -72,9 +75,8 @@ const Home = () => {
                         <h1 className='text-3xl my-6 font-black center'> My Portfolio </h1>
                         <h1 className='text-3xl bold text-green-600'>+12300</h1>
                         <h1 className='text-3xl bold text-green-600'>+12%</h1>
-                        <Link to='/stocks/create'>
-                            <MdOutlineAddBox className='text-sky-800 text-4xl hover:text-sky-900' />
-                        </Link>
+                        <LogoutButton />
+
                     </div>
                     <div className='w-full grid grid-cols-1 gap-1 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-5 my-8'>
                         {stocks && stocks.length > 0 ? (

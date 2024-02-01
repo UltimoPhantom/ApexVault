@@ -4,7 +4,7 @@ import requireAuth from "../middleware/requireAuth.js";
 
 const router = express.Router();
 
-// router.use(requireAuth)
+router.use(requireAuth)
 
 // Route to save new stocks
 router.post('/', async (req, res) => {
