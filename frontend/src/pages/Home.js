@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { MdOutlineAddBox } from 'react-icons/md';
 import Spinner from '../components/Spinner';
 import Trial from '../components/Stock';
+import { useAuthContext } from '../hooks/useAuthContext'
 const AWS = require('aws-sdk')
 const aws_api_url = 'https://ddwtmrp2ib.execute-api.ap-southeast-2.amazonaws.com/default/apexValue_9'
 
@@ -12,14 +13,19 @@ const Home = () => {
     const [stocks, setStocks] = useState([]);
     const [loading, setLoading] = useState(false);
     const [price, setPrice] = useState([]);
+    const { user } = useAuthContext()
 
     const fetchStocks = () => {
-        return axios.get('http://localhost:5555/stocks')
-            .then((response) => response.data)
-            .catch((error) => {
-                console.error("Error fetching stocks:", error);
-                throw error;
-            });
+        return axios.get('http://localhost:5555/stocks', {
+            headers: {
+                'Authorization': `Bearer ${user.token}`
+            }
+        })
+        .then((response) => response.data)
+        .catch((error) => {
+            console.error("Error fetching stocks:", error);
+            throw error;
+        });
     };
 
 
@@ -52,7 +58,9 @@ const Home = () => {
             }
         };
 
-        fetchData();
+        if(user) {
+           fetchData();
+        }
     }, []);
 
 
