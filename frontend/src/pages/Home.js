@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { MdOutlineAddBox } from 'react-icons/md';
 import Spinner from '../components/Spinner';
 import Trial from '../components/Stock';
-import { useAuthContext } from '../hooks/useAuthContext'
+// import { useAuthContext } from '../hooks/useAuthContext'
 import AlertDialog from '../components/Create';
 const AWS = require('aws-sdk')
 const aws_api_url = 'https://ddwtmrp2ib.execute-api.ap-southeast-2.amazonaws.com/default/apexValue_9'
@@ -14,13 +13,14 @@ const Home = () => {
     const [stocks, setStocks] = useState([]);
     const [loading, setLoading] = useState(false);
     const [price, setPrice] = useState([]);
-    const { user } = useAuthContext()
+    // const { user } = useAuthContext();
 
-    const fetchStocks = () => {
+    const FetchStocks = () => {
+        // console.log("*(*(*(*(*(*(((* ", user)
         return axios.get('http://localhost:5555/stocks', {
-            headers: {
-                'Authorization': `Bearer ${user.token}`
-            }
+            // headers: {
+            //     'Authorization': `Bearer ${user.token}`            
+            // }
         })
         .then((response) => response.data)
         .catch((error) => {
@@ -42,27 +42,25 @@ const Home = () => {
 
 
     useEffect(() => {
-        const fetchData = async () => {
+        const FetchData = async () => {
+        // console.log("*)*)*)*)*)*)))* ", user)
+
             try {
                 setLoading(true);
-                const fetchedStocks = await fetchStocks();
-                setStocks(fetchedStocks);
-
-
-                // const calLamb = await callLambda();
-                // console.log(calLamb)
-
+                    const fetchedStocks = await FetchStocks();
+                    setStocks(fetchedStocks);
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
                 setLoading(false);
             }
         };
-
-        if(user) {
-           fetchData();
-        }
-    }, []);
+        // if (user) {
+            // console.log("#@#@#@## ",user)
+            FetchData();
+        // }
+    }, []);  // No need to check for 'user' here, just call the FetchData function directly
+    
 
 
     return (
