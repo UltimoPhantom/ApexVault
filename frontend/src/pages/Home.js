@@ -4,24 +4,29 @@ import { Link } from 'react-router-dom';
 import { MdOutlineAddBox } from 'react-icons/md';
 import Spinner from '../components/Spinner';
 import Trial from '../components/Stock';
+import { useAuthContext } from '../hooks/useAuthContext';
+
 const AWS = require('aws-sdk')
 const aws_api_url = 'https://ddwtmrp2ib.execute-api.ap-southeast-2.amazonaws.com/default/apexValue_9'
-
 
 const Home = () => {
     const [stocks, setStocks] = useState([]);
     const [loading, setLoading] = useState(false);
     const [price, setPrice] = useState([]);
+    const { user } = useAuthContext()
 
     const fetchStocks = () => {
-        return axios.get('http://localhost:5555/stocks')
+        return axios.get('http://localhost:5555/stocks', {
+                    headers: {
+                        'Authorization': `Bearer ${user.token}`
+                    }
+                })
             .then((response) => response.data)
             .catch((error) => {
                 console.error("Error fetching stocks:", error);
                 throw error;
             });
     };
-
 
     const callLambda = async () => {
         try {
@@ -36,24 +41,25 @@ const Home = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+            console.log(")()))() ", user)
             try {
                 setLoading(true);
-                const fetchedStocks = await fetchStocks();
-                setStocks(fetchedStocks);
-
-
-                // const calLamb = await callLambda();
-                // console.log(calLamb)
-
+                if (user) { // Check if user exists before fetching data
+                    const fetchedStocks = await fetchStocks();
+                    setStocks(fetchedStocks);
+                }
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
                 setLoading(false);
             }
         };
-
-        fetchData();
-    }, []);
+    
+        console.log("EFFECTER: ")
+        console.log(user)
+        fetchData(); // Always call fetchData, regardless of whether user exists
+    }, [user]); // Include user in the dependency array to trigger the effect whenever user changes
+    
 
 
     return (
