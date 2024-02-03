@@ -6,6 +6,7 @@ import Spinner from '../components/Spinner';
 import Trial from '../components/Stock';
 import { useAuthContext } from '../hooks/useAuthContext';
 import LogoutButton from '../components/LogoutButton';
+import AlertDialog from '../components/AlertDialog';
 
 const AWS = require('aws-sdk')
 const aws_api_url = 'https://ddwtmrp2ib.execute-api.ap-southeast-2.amazonaws.com/default/apexValue_9'
@@ -75,6 +76,7 @@ const Home = () => {
                         <h1 className='text-3xl my-6 font-black center'> My Portfolio </h1>
                         <h1 className='text-3xl bold text-green-600'>+12300</h1>
                         <h1 className='text-3xl bold text-green-600'>+12%</h1>
+                        <AlertDialog />
                         <LogoutButton />
 
                     </div>
