@@ -9,17 +9,21 @@ router.use(requireAuth)
 // Route to save new stocks
 router.post('/', async (req, res) => {
     try {
-        const { name, price, quantity, LTP } = req.body;
+        const { name, price, quantity, LTP, email } = req.body;
 
         if (!name || !price) {
             return res.status(400).send({ message: "Name and price are required fields." });
         }
+        if(!quantity)
+            return res.status(400).send({ message: "Quantity are required fields." });
+
 
         const newStock = {
             name: name,
             price: price,
             quantity: quantity,
-            LTP: LTP
+            LTP: LTP,
+            email: email
         };
 
         const stock = await Stock.create(newStock);

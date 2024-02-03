@@ -16,9 +16,13 @@ export const stockSchema = mongoose.Schema({
     },
     LTP: {
         type: Number,
-        required: true
+        required: false,
+        default: -1
     },
-    
+    email: {
+        type: String,
+        required: true
+    }
 });
 
 export const Stock = mongoose.model('Stock', stockSchema);

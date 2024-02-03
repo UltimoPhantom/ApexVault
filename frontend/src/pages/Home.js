@@ -45,10 +45,10 @@ const Home = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            console.log(")()))() ", user)
             try {
                 setLoading(true);
                 if (user) { // Check if user exists before fetching data
+                    callLambda()
                     const fetchedStocks = await fetchStocks();
                     setStocks(fetchedStocks);
                 }
