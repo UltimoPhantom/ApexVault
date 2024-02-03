@@ -18,6 +18,7 @@ export const stockSchema = mongoose.Schema({
         type: Number,
         required: true
     },
+    
 });
 
 export const Stock = mongoose.model('Stock', stockSchema);
