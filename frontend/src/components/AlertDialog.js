@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 const CustomDialog = () => {
+    const user = useAuthContext()
+    const email = user.user.email
+
     const [isOpen, setIsOpen] = useState(false);
+    const [symbol, setSymbol] = useState("");
+    const [quantity, setQuantity] = useState(0);
+    const [price, setPrice] = useState(0);
+    const [error, setError] = useState(null);
+
 
     const handleClickOpen = () => {
         setIsOpen(true);
@@ -11,9 +20,37 @@ const CustomDialog = () => {
         setIsOpen(false);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
+        const stock = { name: symbol, price: price, quantity: quantity, email };
+        console.log(stock);
+        // try {
+        //     const response = await fetch('', {
+        //         method: 'POST',
+        //         body: JSON.stringify(stock),
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             'Authorization': `Bearer `, //////fix it kek
+        //         }
+        //     })
+
+        //     const json = await response.json()
+
+        //     if(!response.ok) {
+        //         setError(json.error)
+        //         handleClickOpen()
+        //     }
+
+        //     if(response.ok) {
+                
+        //     }
+        // } 
+        // catch(error) {
+        //     console.log('Eror ', error);
+        // }
     }
+
     return (
         <div>
             <button onClick={handleClickOpen} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
@@ -22,10 +59,12 @@ const CustomDialog = () => {
             {isOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center ">
                     <div className="absolute inset-0 bg-gray-900 opacity-75" onClick={handleClose}></div>
+                    
                     <div className="bg-white rounded-lg p-8 max-w-lg z-50 w-96">
                         <h2 className="text-2xl font-bold mb-4">Stock symbol:</h2>
                         <input
                             type="text"
+                            onChange={(e) => setSymbol(e.target.value)}
                             style={{ textTransform: 'uppercase' }}
                             aria-describedby="helper-text-explanation"
                             className="block w-full p-3 bg-gray-100 border border-gray-300 text-gray-900 rounded-lg mb-4"
@@ -34,6 +73,7 @@ const CustomDialog = () => {
                         <h2 className="text-2xl font-bold mb-4">Quantity:</h2>
                         <input
                             type="number"
+                            onChange={(e) => setQuantity(e.target.value)}
                             aria-describedby="helper-text-explanation"
                             className="block w-full p-3 bg-gray-100 border border-gray-300 text-gray-900 rounded-lg mb-4"
                             required
@@ -41,6 +81,7 @@ const CustomDialog = () => {
                         <h2 className="text-2xl font-bold mb-4">Average Price:</h2>
                         <input
                             type="number"
+                            onChange={(e) => setPrice(e.target.value)}
                             aria-describedby="helper-text-explanation"
                             className="block w-full p-3 bg-gray-100 border border-gray-300 text-gray-900 rounded-lg mb-4"
                             required

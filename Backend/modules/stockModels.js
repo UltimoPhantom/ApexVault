@@ -17,7 +17,7 @@ export const stockSchema = mongoose.Schema({
     LTP: {
         type: Number,
         required: true
-    }
+    },
 });
 
 export const Stock = mongoose.model('Stock', stockSchema);
