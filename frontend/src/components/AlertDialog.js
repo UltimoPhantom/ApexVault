@@ -5,7 +5,7 @@ import ErrorMessage from './ErrorMessage';
 const CustomDialog = () => {
     const { user } = useAuthContext()
     const email = user.email
-    console.log("()()(", email)
+
     const [isOpen, setIsOpen] = useState(false);
     const [symbol, setSymbol] = useState("");
     const [quantity, setQuantity] = useState(0);
@@ -41,7 +41,8 @@ const CustomDialog = () => {
             if(!response.ok) {
                 setError(json.error)
                 console.log(error)
-                handleClickOpen()
+                alert(json.error)
+                // handleClickOpen()
             }
 
             if(response.ok) {
@@ -68,7 +69,6 @@ const CustomDialog = () => {
                         <input
                             type="text"
                             onChange={(e) => setSymbol(e.target.value)}
-                            style={{ textTransform: 'uppercase' }}
                             aria-describedby="helper-text-explanation"
                             className="block w-full p-3 bg-gray-100 border border-gray-300 text-gray-900 rounded-lg mb-4"
                             required

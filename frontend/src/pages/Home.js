@@ -16,28 +16,31 @@ const Home = () => {
     const [loading, setLoading] = useState(false);
     const [price, setPrice] = useState([]);
     const { user } = useAuthContext()
-
+    
     const fetchStocks = () => {
         return axios.get('http://localhost:5555/stocks', {
-                    headers: {
-                        'Authorization': `Bearer ${user.token}`
-                    }
-                })
-            .then((response) => response.data)
-            .catch((error) => {
-                console.error("Error fetching stocks:", error);
-                throw error;
-            });
+            params: {
+                email: user.email
+            },
+            headers: {
+                'Authorization': `Bearer ${user.token}`
+            }
+        })
+        .then((response) => response.data)
+        .catch((error) => {
+            console.error("Error fetching stocks:", error);
+            throw error;
+        });
     };
-
     
-
+    
     const callLambda = async () => {
         try {
-            const response = await axios.get(aws_api_url)
-            return response.data
+            const response = await axios.get(aws_api_url);
+            return response.data;
         } catch (error) {
-            console.log(error.message)
+            console.log(error.message);
+            return []; // Return an empty array if there's an error
         }
     };
 
@@ -48,7 +51,7 @@ const Home = () => {
             try {
                 setLoading(true);
                 if (user) { // Check if user exists before fetching data
-                    callLambda()
+                    // const ll = await callLambda();
                     const fetchedStocks = await fetchStocks();
                     setStocks(fetchedStocks);
                 }
@@ -61,8 +64,8 @@ const Home = () => {
     
         console.log("EFFECTER: ")
         console.log(user)
-        fetchData(); // Always call fetchData, regardless of whether user exists
-    }, [user]); // Include user in the dependency array to trigger the effect whenever user changes
+        fetchData(); 
+    }, [user]); 
     
 
 

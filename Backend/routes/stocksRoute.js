@@ -37,16 +37,18 @@ router.post('/', async (req, res) => {
 // Get all Stocks
 router.get('/', async (req, res) => {
     try {
-        const stock = await Stock.find({});
+        const { email } = req.query;
+        console.log("Email: ", email);
+        const stock = await Stock.find({ email: email }); 
+        console.log("ASASA");
         console.log(stock);
-        console.log(typeof (stock));
         return res.status(200).send(stock);
-    }
-    catch (error) {
+    } catch (error) {
         console.log(error);
         res.status(500).send({ message: error.message });
     }
 });
+
 
 // Get one stock
 router.get('/:id', async (req, res) => {
