@@ -76,7 +76,8 @@ const Home = () => {
 
 
     return (
-        <div className='p-4 h-screen w-screen bg-gray-400'>
+<div className='p-4 h-screen w-screen' style={{ backgroundImage: 'url("https://i.ibb.co/Yfp4gKB/av-bg-1.png")', backgroundSize: 'cover' }}>
+
 
             {loading ? (
                 <Spinner />

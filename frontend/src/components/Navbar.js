@@ -11,8 +11,8 @@ const Navbar = ({ investedVal, currentVal }) => {
         <div className='flex flex-row items-center justify-between'>
             <h1 className='text-3xl my-6 font-black'>My Portfolio</h1>
             <div className='flex justify-center'>
-                <h1 className='text-3xl bold text-green-600 mx-16'>Invested: {investedVal}</h1>
-                <h1 className='text-3xl bold text-green-600 '>Current : {currentVal}</h1>
+                <h1 className='text-3xl bold text-black mx-16'>Invested: {investedVal}</h1>
+                <h1 className='text-3xl bold text-black '>Current : {currentVal}</h1>
             </div>
             <div className='flex justify-center'>
                 <AddStockButton />
