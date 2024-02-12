@@ -76,7 +76,8 @@ const Home = () => {
 
 
     return (
-        <div className='p-4'>
+        <div className='p-4 h-screen w-screen bg-gray-400'>
+
             {loading ? (
                 <Spinner />
             ) : (
