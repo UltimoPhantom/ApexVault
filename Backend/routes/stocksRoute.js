@@ -38,10 +38,7 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
     try {
         const { email } = req.query;
-        console.log("Email: ", email);
         const stock = await Stock.find({ email: email }); 
-        console.log("ASASA");
-        console.log(stock);
         return res.status(200).send(stock);
     } catch (error) {
         console.log(error);
@@ -55,7 +52,6 @@ router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const stock = await Stock.findById(id);
-        console.log(stock);
         return res.status(200).send(stock);
     } catch (error) {
         console.log(error);
@@ -68,7 +64,6 @@ router.put('/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const result = await Stock.findByIdAndUpdate(id, req.body);
-        console.log("Req body: ", req.body);
 
         res.status(200).send({ message: "Stock updated successfully! " });
     } catch (error) {

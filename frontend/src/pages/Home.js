@@ -30,14 +30,14 @@ const Home = () => {
                 'Authorization': `Bearer ${user.token}`
             }
         })
-        .then((response) => response.data)
-        .catch((error) => {
-            console.error("Error fetching stocks:", error);
-            throw error;
-        });
+            .then((response) => response.data)
+            .catch((error) => {
+                console.error("Error fetching stocks:", error);
+                throw error;
+            });
     };
-    
-    
+
+
     const callLambda = async () => {
         try {
             const response = await axios.get(aws_api_url);
@@ -46,7 +46,7 @@ const Home = () => {
             return
         } catch (error) {
             console.log(error.message);
-            return []; // Return an empty array if there's an error
+            return []; 
         }
     };
 
@@ -59,7 +59,7 @@ const Home = () => {
                 if (user) {
 
                     // await callLambda();
-                    
+
                     const fetchedStocks = await fetchStocks();
                     setStocks(fetchedStocks);
                 }
@@ -69,23 +69,21 @@ const Home = () => {
                 setLoading(false);
             }
         };
-    
-        fetchData(); 
-    }, [user]); 
-    
+
+        fetchData();
+    }, [user]);
+
 
 
     return (
-<div className='p-4 h-screen w-screen' style={{ backgroundImage: 'url("https://i.ibb.co/Yfp4gKB/av-bg-1.png")', backgroundSize: 'cover' }}>
-
-
+        <div className='p-4 h-screen w-screen' style={{ backgroundImage: 'url("https://i.ibb.co/n7BKyWQ/bg-04.png")', backgroundSize: 'cover' }}>
             {loading ? (
                 <Spinner />
             ) : (
                 <div>
-                    <Navbar investedVal={invested_val} currentVal={current_val}/>
+                    <Navbar investedVal={invested_val} currentVal   ={current_val} />
 
-                    <div className='w-full grid grid-cols-1 gap-1 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-5 my-8'>
+                    <div className='w-full grid grid-cols-1 gap-1 sm:grid-cols-1 md:grid-cols-6 lg:grid-cols-5 my-8'>
                         {stocks && stocks.length > 0 ? (
                             stocks.map((stock, index) => (
                                 <Stock key={index} name={stock.name} price={stock.price} id={stock.id} quantity={stock.quantity} LTP={stock.LTP} />
