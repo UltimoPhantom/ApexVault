@@ -22,7 +22,19 @@ export const stockSchema = mongoose.Schema({
     email: {
         type: String,
         required: true
+    },
+    buy_date: {
+        type: String,
+        required: false,
+        default: null
+    },
+    last_updated_date: {
+        type: String,
+        required: false,
+        default: null
     }
+    
+    
 });
 
 export const Stock = mongoose.model('Stock', stockSchema);
