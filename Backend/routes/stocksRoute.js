@@ -48,17 +48,13 @@ router.get('/', async (req, res) => {
         const email = req.userEmail;
 
         const stock = await Stock.find({ email: email });
-        console.log("Stocks: ", stock);
 
         const user = await User.find({ email: email }) 
         user = user[0];
-        console.log("User: ", user);
 
         const last_updated = user.last_updated;
-        console.log("last_updated: ", last_updated);
 
         const coins = user.coins;
-        console.log("COINS:: ", coins);
         
         return res.status(200).send({ stock: stock, last_updated: last_updated, coins: coins });
     } catch (error) {

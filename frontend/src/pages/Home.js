@@ -17,7 +17,7 @@ const Home = () => {
     const [loading, setLoading] = useState(false);
     const [invested_val, setInvested_val] = useState(100);
     const [current_val, setcurrent_val] = useState(120);
-    const [coins, setCoins] = useState(0);
+    const [ccc, setCoins] = useState(0);
     const [lastUpdated, setLastUpdated] = useState("");
 
     const { user } = useAuthContext()
@@ -63,18 +63,27 @@ const Home = () => {
 
 
     useEffect(() => {
+        console.log("Coins:", ccc);
+    }, [ccc]);
+    
+    useEffect(() => {
+        console.log("Last Updated:", lastUpdated);
+    }, [lastUpdated]);
+    
+    useEffect(() => {
         const fetchData = async () => {
             try {
                 setLoading(true);
                 if (user) {
-
-                    
                     const fetchedData = await fetchStocks();
-                    setCoins(fetchedData.coins);
-                    setLastUpdated(fetchedData.last_updated);
-                    setStocks(fetchedData.stocks);
                     
-                    // await callLambda();
+                    const stockk = fetchedData.stock;
+                    setStocks(stockk);
+    
+                    const coons = fetchedData.coins;
+                    setCoins(coons);
+    
+                    setLastUpdated(fetchedData.last_updated);
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -82,10 +91,11 @@ const Home = () => {
                 setLoading(false);
             }
         };
-
+    
         fetchData();
-    }, [user]);
-
+    }, [user, setStocks, setCoins, setLastUpdated]);
+    
+    
 
 
     return (
