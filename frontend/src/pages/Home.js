@@ -15,35 +15,45 @@ const aws_api_url = 'https://ddwtmrp2ib.execute-api.ap-southeast-2.amazonaws.com
 const Home = () => {
     const [stocks, setStocks] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [price, setPrice] = useState([]);
     const [invested_val, setInvested_val] = useState(100);
     const [current_val, setcurrent_val] = useState(120);
+    const [coins, setCoins] = useState(0);
+    const [lastUpdated, setLastUpdated] = useState("");
 
     const { user } = useAuthContext()
 
-    const fetchStocks = () => {
-        return axios.get('http://localhost:5555/stocks', {
-            params: {
-                email: user.email
-            },
-            headers: {
-                'Authorization': `Bearer ${user.token}`
-            }
-        })
-            .then((response) => response.data)
-            .catch((error) => {
-                console.error("Error fetching stocks:", error);
-                throw error;
+    const fetchStocks = async () => {
+        try {
+            const response = await axios.get('http://localhost:5555/stocks', {
+                params: {
+                    email: user.email
+                },
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
             });
+            return response.data;
+        } catch (error) {
+            console.error("Error fetching stocks:", error);
+            throw error;
+        }
     };
 
 
     const callLambda = async () => {
         try {
-            const response = await axios.get(aws_api_url);
-            setInvested_val(response.data.currentVal)
-            setcurrent_val(response.data.investedVal)
-            return
+            const now = new Date();
+            const datee = now.getDate();
+            const month = now.getDate();
+            const year = now.getDate();
+            const today = datee + " " + month + " " + year;
+            if(1) {
+                const response = await axios.get(aws_api_url);
+                setInvested_val(response.data.currentVal)
+                setcurrent_val(response.data.investedVal)
+                return
+            }
+        
         } catch (error) {
             console.log(error.message);
             return []; 
@@ -58,10 +68,13 @@ const Home = () => {
                 setLoading(true);
                 if (user) {
 
+                    
+                    const fetchedData = await fetchStocks();
+                    setCoins(fetchedData.coins);
+                    setLastUpdated(fetchedData.last_updated);
+                    setStocks(fetchedData.stocks);
+                    
                     // await callLambda();
-
-                    const fetchedStocks = await fetchStocks();
-                    setStocks(fetchedStocks);
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);

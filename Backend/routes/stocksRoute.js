@@ -1,6 +1,7 @@
 import express from "express";
 import { Stock } from "../modules/stockModels.js";
 import requireAuth from "../middleware/requireAuth.js";
+import { User } from "../modules/userModels.js";
 
 const router = express.Router();
 
@@ -17,15 +18,22 @@ router.post('/', async (req, res) => {
         if(!quantity)
             return res.status(400).send({ message: "Quantity are required fields." });
 
+        //buy date set
+        const date = new Date();
+        const day = date.getDate();
+        const month = date.getMonth() + 1; 
+        const year = date.getFullYear();
+
+        const toDay = day + " " + month + " " + year;
 
         const newStock = {
             name: name,
             price: price,
             quantity: quantity,
             LTP: LTP,
-            email: email
+            email: email,
+            buy_date: toDay
         };
-
         const stock = await Stock.create(newStock);
         return res.status(201).send(stock);
     } catch (error) {
@@ -37,9 +45,22 @@ router.post('/', async (req, res) => {
 // Get all Stocks
 router.get('/', async (req, res) => {
     try {
-        const { email } = req.query;
-        const stock = await Stock.find({ email: email }); 
-        return res.status(200).send(stock);
+        const email = req.userEmail;
+
+        const stock = await Stock.find({ email: email });
+        console.log("Stocks: ", stock);
+
+        const user = await User.find({ email: email }) 
+        user = user[0];
+        console.log("User: ", user);
+
+        const last_updated = user.last_updated;
+        console.log("last_updated: ", last_updated);
+
+        const coins = user.coins;
+        console.log("COINS:: ", coins);
+        
+        return res.status(200).send({ stock: stock, last_updated: last_updated, coins: coins });
     } catch (error) {
         console.log(error);
         res.status(500).send({ message: error.message });
@@ -83,5 +104,6 @@ router.delete('/:id', async (req, res) => {
         res.status(500).send({ message: error.message });
     }
 });
+
 
 export default router;

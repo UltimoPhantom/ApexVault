@@ -1,6 +1,8 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import bcrypt from 'bcrypt';
 import validator from 'validator';
+
+const s = new Schema;
 
 export const userSchema = mongoose.Schema({
     email: {
@@ -11,12 +13,18 @@ export const userSchema = mongoose.Schema({
     password: {
         type: String,
         require: true
+    },
+    last_updated: {
+        type: String
+    },
+    coins: {
+        type: Number,
+        default: 100
     }
 });
 
 //static signup method
 userSchema.statics.signup = async function(email, password) {
-    console.log("***", email, password)
     if(!email || !password)
         throw Error('Email or password is empty')
 
@@ -33,8 +41,9 @@ userSchema.statics.signup = async function(email, password) {
 
     const salt = await bcrypt.genSalt(5)
     const hash = await bcrypt.hash(password, salt)
+    const now = new Date();
 
-    const user = await this.create({ email, password: hash })
+    const user = await this.create({ email, password: hash, last_updated: "-1", coins: 100 })
 
     return user
 }
