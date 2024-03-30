@@ -47,12 +47,10 @@ const Home = () => {
             const month = now.getDate();
             const year = now.getDate();
             const today = datee + " " + month + " " + year;
-            if(1) {
                 const response = await axios.get(aws_api_url);
                 setInvested_val(response.data.currentVal)
                 setcurrent_val(response.data.investedVal)
                 return
-            }
         
         } catch (error) {
             console.log(error.message);
@@ -93,18 +91,19 @@ const Home = () => {
         };
     
         fetchData();
+        callLambda();
     }, [user, setStocks, setCoins, setLastUpdated]);
     
     
 
 
     return (
-        <div className='p-4 h-screen w-screen' style={{ backgroundImage: 'url("https://i.ibb.co/n7BKyWQ/bg-04.png")', backgroundSize: 'cover' }}>
+        <div className='p-4 h-screen w-screen' style={{ backgroundImage: 'url("https://i.postimg.cc/xdLxBnDH/IMG-BG-001.jpg")', backgroundSize: 'cover' }}>
             {loading ? (
                 <Spinner />
             ) : (
                 <div>
-                    <Navbar investedVal={invested_val} currentVal   ={current_val} />
+                    <Navbar investedVal={invested_val} currentVal={current_val} />
 
                     <div className='w-full grid grid-cols-1 gap-1 sm:grid-cols-1 md:grid-cols-6 lg:grid-cols-5 my-8'>
                         {stocks && stocks.length > 0 ? (

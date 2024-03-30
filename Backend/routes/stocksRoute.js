@@ -49,7 +49,7 @@ router.get('/', async (req, res) => {
 
         const stock = await Stock.find({ email: email });
 
-        const user = await User.find({ email: email }) 
+        var user = await User.find({ email: email }) 
         user = user[0];
 
         const last_updated = user.last_updated;
