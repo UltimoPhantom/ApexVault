@@ -2,85 +2,120 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Spinner from '../components/Spinner';
-import Trial from '../components/Stock';
-// import { useAuthContext } from '../hooks/useAuthContext'
-import AlertDialog from '../components/Create';
+
+import Stock from '../components/Stock';
+import { useAuthContext } from '../hooks/useAuthContext';
+import LogoutButton from '../components/LogoutButton';
+import AddStockButton from '../components/AddStockButton';
+import Navbar from '../components/Navbar';
+
 const AWS = require('aws-sdk')
 const aws_api_url = 'https://ddwtmrp2ib.execute-api.ap-southeast-2.amazonaws.com/default/apexValue_9'
-
 
 const Home = () => {
     const [stocks, setStocks] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [price, setPrice] = useState([]);
-    // const { user } = useAuthContext();
 
-    const FetchStocks = () => {
-        // console.log("*(*(*(*(*(*(((* ", user)
-        return axios.get('http://localhost:5555/stocks', {
-            // headers: {
-            //     'Authorization': `Bearer ${user.token}`            
-            // }
-        })
-        .then((response) => response.data)
-        .catch((error) => {
+    const [invested_val, setInvested_val] = useState(100);
+    const [current_val, setcurrent_val] = useState(120);
+    const [ccc, setCoins] = useState(0);
+    const [lastUpdated, setLastUpdated] = useState("");
+
+    const { user } = useAuthContext()
+
+    const fetchStocks = async () => {
+        try {
+            const response = await axios.get('http://localhost:5555/stocks', {
+                params: {
+                    email: user.email
+                },
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
+            });
+            return response.data;
+        } catch (error) {
             console.error("Error fetching stocks:", error);
             throw error;
-        });
+        }
+
     };
 
 
     const callLambda = async () => {
         try {
-            const response = await axios.get(aws_api_url)
-            return response.data
+            const now = new Date();
+            const datee = now.getDate();
+            const month = now.getDate();
+            const year = now.getDate();
+            const today = datee + " " + month + " " + year;
+                const response = await axios.get(aws_api_url);
+                setInvested_val(response.data.currentVal)
+                setcurrent_val(response.data.investedVal)
+                return
+        
         } catch (error) {
-            console.log(error.message)
+            console.log(error.message);
+            return []; 
         }
     };
 
 
 
     useEffect(() => {
-        const FetchData = async () => {
-        // console.log("*)*)*)*)*)*)))* ", user)
 
+        console.log("Coins:", ccc);
+    }, [ccc]);
+    
+    useEffect(() => {
+        console.log("Last Updated:", lastUpdated);
+    }, [lastUpdated]);
+    
+    useEffect(() => {
+        const fetchData = async () => {
             try {
                 setLoading(true);
-                    const fetchedStocks = await FetchStocks();
-                    setStocks(fetchedStocks);
+                if (user) {
+                    const fetchedData = await fetchStocks();
+                    
+                    const stockk = fetchedData.stock;
+                    setStocks(stockk);
+    
+                    const coons = fetchedData.coins;
+                    setCoins(coons);
+    
+                    setLastUpdated(fetchedData.last_updated);
+                }
+
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
                 setLoading(false);
             }
         };
-        // if (user) {
-            // console.log("#@#@#@## ",user)
-            FetchData();
-        // }
-    }, []);  // No need to check for 'user' here, just call the FetchData function directly
+  // No need to check for 'user' here, just call the FetchData function directly
+
+    
+        fetchData();
+        callLambda();
+    }, [user, setStocks, setCoins, setLastUpdated]);
+
     
 
 
     return (
-        <div className='p-4'>
+        <div className='p-4 h-screen w-screen' style={{ backgroundImage: 'url("https://i.postimg.cc/xdLxBnDH/IMG-BG-001.jpg")', backgroundSize: 'cover' }}>
             {loading ? (
                 <Spinner />
             ) : (
                 <div>
-                    <div className='flex justify-between items-center'>
-                        <h1 className='text-3xl my-6 font-black center'> My Portfolio </h1>
-                        <h1 className='text-3xl bold text-green-600'>+12300</h1>
-                        <h1 className='text-3xl bold text-green-600'>+12%</h1>
-                        <Link to='/stocks/create'>
-                            <AlertDialog />
-                        </Link>
-                    </div>
-                    <div className='w-full grid grid-cols-1 gap-1 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-5 my-8'>
+
+                    <Navbar investedVal={invested_val} currentVal={current_val} />
+
+                    <div className='w-full grid grid-cols-1 gap-1 sm:grid-cols-1 md:grid-cols-6 lg:grid-cols-5 my-8'>
                         {stocks && stocks.length > 0 ? (
                             stocks.map((stock, index) => (
-                                <Trial key={index} name={stock.name} price={stock.price} id={stock.id} quantity={stock.quantity} LTP={stock.LTP} />
+                                <Stock key={index} name={stock.name} price={stock.price} id={stock.id} quantity={stock.quantity} LTP={stock.LTP} />
                             ))
                         ) : (
                             <p className='text-center'>No stocks available</p>

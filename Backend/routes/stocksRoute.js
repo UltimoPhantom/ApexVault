@@ -3,20 +3,36 @@ import { Stock } from "../modules/stockModels.js";
 import requireAuth from "../middleware/requireAuth.js";
 
 
+
+import { User } from "../modules/userModels.js";
+
 const router = express.Router();
 
-//protection, jwt before others
+
 router.use(requireAuth)
 
 // Route to save new stocks
 router.post('/', async (req, res) => {
     try {
-        const user_id = req.user._id
-        const { name, price, quantity, LTP } = req.body;
+
+
+
+        const { name, price, quantity, LTP, email } = req.body;
+
 
         if (!name || !price) {
             return res.status(400).send({ message: "Name and price are required fields." });
         }
+        if(!quantity)
+            return res.status(400).send({ message: "Quantity are required fields." });
+
+        //buy date set
+        const date = new Date();
+        const day = date.getDate();
+        const month = date.getMonth() + 1; 
+        const year = date.getFullYear();
+
+        const toDay = day + " " + month + " " + year;
 
         const newStock = {
             name: name,
@@ -24,8 +40,9 @@ router.post('/', async (req, res) => {
             quantity: quantity,
             LTP: LTP,
             user_id: user_id
+            email: email,
+            buy_date: toDay
         };
-
         const stock = await Stock.create(newStock);
         return res.status(201).send(stock);
     } catch (error) {
@@ -37,23 +54,30 @@ router.post('/', async (req, res) => {
 // Get all Stocks
 router.get('/', async (req, res) => {
     try {
-        const stock = await Stock.find({});
-        console.log(stock);
-        console.log(typeof (stock));
-        return res.status(200).send(stock);
-    }
-    catch (error) {
+        const email = req.userEmail;
+
+        const stock = await Stock.find({ email: email });
+
+        var user = await User.find({ email: email }) 
+        user = user[0];
+
+        const last_updated = user.last_updated;
+
+        const coins = user.coins;
+        
+        return res.status(200).send({ stock: stock, last_updated: last_updated, coins: coins });
+    } catch (error) {
         console.log(error);
         res.status(500).send({ message: error.message });
     }
 });
+
 
 // Get one stock
 router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const stock = await Stock.findById(id);
-        console.log(stock);
         return res.status(200).send(stock);
     } catch (error) {
         console.log(error);
@@ -66,7 +90,6 @@ router.put('/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const result = await Stock.findByIdAndUpdate(id, req.body);
-        console.log("Req body: ", req.body);
 
         res.status(200).send({ message: "Stock updated successfully! " });
     } catch (error) {
@@ -86,5 +109,6 @@ router.delete('/:id', async (req, res) => {
         res.status(500).send({ message: error.message });
     }
 });
+
 
 export default router;

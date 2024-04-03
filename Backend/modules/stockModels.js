@@ -16,12 +16,31 @@ export const stockSchema = mongoose.Schema({
     },
     LTP: {
         type: Number,
+        required: false,
+        default: -1
+    },
+    email: {
+        type: String,
         required: true
     },
+
     user_id: {
         type: String,
         required: true
+
+    buy_date: {
+        type: String,
+        required: false,
+        default: null
+    },
+    last_updated_date: {
+        type: String,
+        required: false,
+        default: null
+
     }
+    
+    
 });
 
 export const Stock = mongoose.model('Stock', stockSchema);

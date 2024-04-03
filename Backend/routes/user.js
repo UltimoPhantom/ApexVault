@@ -23,7 +23,7 @@ router.post('/login', async (req, res) => {
     }
 })
 
-//Signuo
+//Signup
 router.post('/signup', async (req, res) => {
     const {email, password} = req.body
     try {  
@@ -35,7 +35,6 @@ router.post('/signup', async (req, res) => {
     } catch(error) {
         res.status(400).json({error: error.message})
     }
-
 })
 
 export default router;
