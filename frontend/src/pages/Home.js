@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { MdOutlineAddBox } from 'react-icons/md';
 import Spinner from '../components/Spinner';
+
 import Stock from '../components/Stock';
 import { useAuthContext } from '../hooks/useAuthContext';
 import LogoutButton from '../components/LogoutButton';
@@ -15,6 +15,7 @@ const aws_api_url = 'https://ddwtmrp2ib.execute-api.ap-southeast-2.amazonaws.com
 const Home = () => {
     const [stocks, setStocks] = useState([]);
     const [loading, setLoading] = useState(false);
+
     const [invested_val, setInvested_val] = useState(100);
     const [current_val, setcurrent_val] = useState(120);
     const [ccc, setCoins] = useState(0);
@@ -37,6 +38,7 @@ const Home = () => {
             console.error("Error fetching stocks:", error);
             throw error;
         }
+
     };
 
 
@@ -61,6 +63,7 @@ const Home = () => {
 
 
     useEffect(() => {
+
         console.log("Coins:", ccc);
     }, [ccc]);
     
@@ -83,17 +86,20 @@ const Home = () => {
     
                     setLastUpdated(fetchedData.last_updated);
                 }
+
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
                 setLoading(false);
             }
         };
+  // No need to check for 'user' here, just call the FetchData function directly
+
     
         fetchData();
         callLambda();
     }, [user, setStocks, setCoins, setLastUpdated]);
-    
+
     
 
 
@@ -103,6 +109,7 @@ const Home = () => {
                 <Spinner />
             ) : (
                 <div>
+
                     <Navbar investedVal={invested_val} currentVal={current_val} />
 
                     <div className='w-full grid grid-cols-1 gap-1 sm:grid-cols-1 md:grid-cols-6 lg:grid-cols-5 my-8'>
