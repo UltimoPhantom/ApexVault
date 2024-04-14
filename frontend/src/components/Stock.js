@@ -46,3 +46,34 @@ const PercentChange = ({ price, LTP }) => {
 }
 
 export default StockDetail;
+
+
+
+// alternatice design
+/*
+    <div className='center justify-center mx-4 group mb-4'>
+      <a className="block w-full max-w-xl p-6 bg-white border border-gray-200 rounded-3xl shadow-xl drop-shadow-2xl hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 hover:rounded-xl transition-all duration-300 hover:shadow-none min-w-fit mb-4 ">
+        <div className='flex flex-col justify-between'>
+          <div className="mb-2">
+            <h5 className="text-xl font-bold text-gray-900 dark:text-white">{name}</h5>
+            <PercentChange price={price} LTP={LTP} />
+          </div>
+          <p className="font-bold text-3xl text-gray-900 dark:text-white">{`₹${LTP}`}</p>
+          <div className='flex items-center justify-between mt-4'>
+            <div className='flex items-center'>
+              <h2 className='text-cyan-300 mr-3'>Q: {`${quantity}`}</h2>
+              <h2 className='text-cyan-300'>Avg: {`${price}`}</h2>
+            </div>
+            <div className='flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out'>
+              <Link to={`/stocks/delete/${id}`}>
+                <MdOutlineDelete className='text-2xl text-red-600 mr-2' />
+              </Link>
+              <Link to={`/stocks/edit/${id}`}>
+                <AiOutlineEdit className='text-2xl text-yellow-600 hover:text-yellow-800' />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+*/

@@ -93,8 +93,8 @@ const Home = () => {
         fetchData();
         callLambda();
     }, [user, setStocks, setCoins, setLastUpdated]);
-    
-    
+
+
 
 
     return (
