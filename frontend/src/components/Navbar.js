@@ -1,6 +1,7 @@
 import React from 'react';
 import LogoutButton from './LogoutButton';
 import AddStockButton from './AddStockButton';
+import GetHistChart from './GetHistChart';
 
 const Navbar = ({ investedVal, currentVal }) => {
     const percentage = investedVal / (currentVal + investedVal ) * 100;
@@ -16,6 +17,7 @@ const Navbar = ({ investedVal, currentVal }) => {
             </div>
             <div className='flex justify-center'>
                 <AddStockButton />
+                <GetHistChart />
                 <LogoutButton />
             </div>
         </div>

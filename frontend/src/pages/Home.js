@@ -32,7 +32,7 @@ const Home = () => {
                     'Authorization': `Bearer ${user.token}`
                 }
             });
-            return response.data;
+            return response.data; 
         } catch (error) {
             console.error("Error fetching stocks:", error);
             throw error;
