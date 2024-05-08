@@ -23,15 +23,15 @@ def get_stock_data():
     df2['DATE'] = pd.to_datetime(df2['DATE'], unit='ms')
     df2['DATE'] = df2['DATE'].dt.strftime('%d/%m/%y')
 
-    plt.figure(figsize=(24, 16))  # Set the figure size to maximize the plot
+    plt.figure(figsize=(24, 16))
     plt.plot(df2['DATE'], df2['CLOSE'], color='blue', linewidth=2, linestyle='-')
     plt.xlabel('Date', fontsize=12, fontweight='bold', color='gray')
     plt.ylabel('Closing Price', fontsize=12, fontweight='bold', color='gray')
-    plt.xticks(rotation=90, fontsize=10, color='black')  # Rotate x-labels by 45 degrees
+    plt.xticks(rotation=90, fontsize=10, color='black') 
     plt.yticks(fontsize=10, color='black')
     plt.title('Stock Price Over Time', fontsize=14, fontweight='bold', color='black')
-    plt.grid(True, linestyle='--', linewidth=0.5, color='lightgray')  # Add grid with dashed lines
-    plt.tight_layout()  # Adjust layout to prevent clipping of labels
+    plt.grid(True, linestyle='--', linewidth=0.5, color='lightgray') 
+    plt.tight_layout()  
     plt.show()
 
     return jsonify({'stocks': df_json})

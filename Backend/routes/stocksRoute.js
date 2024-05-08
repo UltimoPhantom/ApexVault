@@ -77,9 +77,16 @@ router.get('/', async (req, res) => {
 
         const last_updated = user.last_updated;
 
-        const coins = user.coins;
-        
-        return res.status(200).send({ stock: stock, last_updated: last_updated, coins: coins });
+        let coins = 0;
+        let totalCoins = 0;
+        for (const s of stock) {
+            coins += s.price * s.quantity
+            totalCoins += s.LTP * s.quantity;
+        }
+
+            console.log("COINS: ", coins)
+            console.log("TOTAL: ", totalCoins)
+        return res.status(200).send({ stock: stock, last_updated: last_updated, coins: coins, totalCoins: totalCoins });
     } catch (error) {
         console.log(error);
         res.status(500).send({ message: error.message });

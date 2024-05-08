@@ -15,8 +15,8 @@ const aws_api_url = 'https://ddwtmrp2ib.execute-api.ap-southeast-2.amazonaws.com
 const Home = () => {
     const [stocks, setStocks] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [invested_val, setInvested_val] = useState(100);
-    const [current_val, setcurrent_val] = useState(120);
+    const [invested_val, setInvested_val] = useState();
+    const [current_val, setcurrent_val] = useState();
     const [ccc, setCoins] = useState(0);
     const [lastUpdated, setLastUpdated] = useState("");
 
@@ -39,6 +39,11 @@ const Home = () => {
         }
     };
 
+    const getTotalCoins = async () => {
+        console.log("EMAIL:: ", user.email)
+
+    }
+
 
     const callLambda = async () => {
         try {
@@ -47,9 +52,9 @@ const Home = () => {
             const month = now.getDate();
             const year = now.getDate();
             const today = datee + " " + month + " " + year;
-                const response = await axios.get(aws_api_url);
-                setInvested_val(response.data.currentVal)
-                setcurrent_val(response.data.investedVal)
+                // const response = await axios.get(aws_api_url);
+                // setInvested_val(response.data.currentVal)
+                // setcurrent_val(response.data.investedVal)
                 return
         
         } catch (error) {
@@ -74,14 +79,12 @@ const Home = () => {
                 setLoading(true);
                 if (user) {
                     const fetchedData = await fetchStocks();
-                    
-                    const stockk = fetchedData.stock;
-                    setStocks(stockk);
-    
-                    const coons = fetchedData.coins;
-                    setCoins(coons);
-    
+
+                    setStocks(fetchedData.stock);
+                    setInvested_val(fetchedData.coins)
+                    setcurrent_val(fetchedData.totalCoins)
                     setLastUpdated(fetchedData.last_updated);
+                    console.log(lastUpdated)
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);
