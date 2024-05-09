@@ -1,9 +1,11 @@
-import React from 'react'
+// import React from 'react'
+// import { useE}
 
-const DeleteStocks = () => {
-  return (
-    <div>DeleteStocks</div>
-  )
-}
+// const DeleteStocks = () => {
 
-export default DeleteStocks
+//   return (
+//     <div>DeleteStocks</div>
+//   )
+// }
+
+// export default DeleteStocks

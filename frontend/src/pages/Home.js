@@ -52,7 +52,7 @@ const Home = () => {
             const month = now.getDate();
             const year = now.getDate();
             const today = datee + " " + month + " " + year;
-                // const response = await axios.get(aws_api_url);
+                const response = await axios.get(aws_api_url);
                 // setInvested_val(response.data.currentVal)
                 // setcurrent_val(response.data.investedVal)
                 return

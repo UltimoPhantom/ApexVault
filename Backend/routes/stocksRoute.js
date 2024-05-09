@@ -120,14 +120,45 @@ router.put('/:id', async (req, res) => {
 });
 
 // Delete One
-router.delete('/:id', async (req, res) => {
+// router.delete('/:id', async (req, res) => {
+//     try {
+//         const { id } = req.params;
+//         const result = await Stock.findByIdAndDelete(id);
+//         res.status(200).send({ message: "Deleted! " });
+//     } catch (error) {
+//         console.log(error);
+//         res.status(500).send({ message: error.message });
+//     }
+// });
+
+router.delete('/:stockName', async (req, res) => {
     try {
-        const { id } = req.params;
-        const result = await Stock.findByIdAndDelete(id);
-        res.status(200).send({ message: "Deleted! " });
+        const { stockName } = req.params;
+
+        // Find the user by email
+        const user = await User.findOne({});
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Find the index of the stock with the given name
+        const index = user.stocks.findIndex(stock => stock.name === stockName);
+
+        if (index === -1) {
+            return res.status(404).json({ message: 'Stock not found' });
+        }
+
+        // Remove the stock from the user's stocks array
+        user.stocks.splice(index, 1);
+
+        // Save the updated user document
+        await user.save();
+
+        return res.status(200).json({ message: 'Stock removed successfully' });
     } catch (error) {
-        console.log(error);
-        res.status(500).send({ message: error.message });
+        console.error(error);
+        return res.status(500).json({ message: error.message });
     }
 });
 

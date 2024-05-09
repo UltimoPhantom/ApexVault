@@ -21,14 +21,14 @@ const StockSearch = ({ stockDataFilePath }) => {
 
     return (
         <div>
-            <input
+            {/* <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Enter stock name"
             />
             <button onClick={handleSearch}>Search</button>
-            <p>{searchResult}</p>
+            <p>{searchResult}</p> */}
         </div>
     );
 };
