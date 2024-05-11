@@ -11,6 +11,8 @@ import Navbar from '../components/Navbar';
 
 const AWS = require('aws-sdk')
 const aws_api_url = 'https://ddwtmrp2ib.execute-api.ap-southeast-2.amazonaws.com/default/apexValue_9'
+const aws_api_perUser = 'https://a4c8scumte.execute-api.ap-southeast-2.amazonaws.com/default/PerUserFetch'
+
 
 const Home = () => {
     const [stocks, setStocks] = useState([]);
@@ -63,7 +65,30 @@ const Home = () => {
         }
     };
 
-
+    const perUserFetch = async (email) => {
+        console.log("Called! ");
+        setLoading(true);
+        try {
+            const res = await axios.post(aws_api_perUser, {
+                email: email
+            }, {
+                headers: {
+                    'Access-Control-Allow-Origin': 'http://localhost:3000',
+                    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+                }
+            });
+            console.log("AWS API RES: ", res.data);
+            setLoading(false);
+            return res.data;
+        } catch (error) {
+            console.log("9090");
+            console.log(error.message);
+            setLoading(false);
+            return [];
+        }
+    };
+    
+    
 
     useEffect(() => {
         console.log("Coins:", ccc);
@@ -78,8 +103,8 @@ const Home = () => {
             try {
                 setLoading(true);
                 if (user) {
+                    const r = await perUserFetch(user.email)
                     const fetchedData = await fetchStocks();
-
                     setStocks(fetchedData.stock);
                     setInvested_val(fetchedData.coins)
                     setcurrent_val(fetchedData.totalCoins)
