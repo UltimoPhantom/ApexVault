@@ -11,7 +11,6 @@ import Navbar from '../components/Navbar';
 
 const AWS = require('aws-sdk')
 const aws_api_url = 'https://ddwtmrp2ib.execute-api.ap-southeast-2.amazonaws.com/default/apexValue_9'
-const aws_api_perUser = 'https://a4c8scumte.execute-api.ap-southeast-2.amazonaws.com/default/PerUserFetch'
 
 
 const Home = () => {
@@ -69,7 +68,7 @@ const Home = () => {
         console.log("Called! ");
         setLoading(true);
         try {
-            const res = await axios.post(aws_api_perUser, {
+            const res = await axios.post('http://localhost:5555/user/getStocks', {
                 email: email
             }, {
                 headers: {
@@ -104,6 +103,8 @@ const Home = () => {
                 setLoading(true);
                 if (user) {
                     const r = await perUserFetch(user.email)
+                    setInvested_val(r['investedVal'])
+                    setcurrent_val(r['currentVal'])
                     const fetchedData = await fetchStocks();
                     setStocks(fetchedData.stock);
                     setInvested_val(fetchedData.coins)
