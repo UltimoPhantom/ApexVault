@@ -120,16 +120,16 @@ router.put('/:id', async (req, res) => {
 });
 
 // Delete One
-// router.delete('/:id', async (req, res) => {
-//     try {
-//         const { id } = req.params;
-//         const result = await Stock.findByIdAndDelete(id);
-//         res.status(200).send({ message: "Deleted! " });
-//     } catch (error) {
-//         console.log(error);
-//         res.status(500).send({ message: error.message });
-//     }
-// });
+router.delete('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const result = await Stock.findByIdAndDelete(id);
+        res.status(200).send({ message: "Deleted! " });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ message: error.message });
+    }
+});
 
 router.delete('/:stockName', async (req, res) => {
     try {
