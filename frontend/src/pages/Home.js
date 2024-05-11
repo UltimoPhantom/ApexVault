@@ -64,39 +64,62 @@ const Home = () => {
         }
     };
 
-    const perUserFetch = async (email) => {
-        console.log("Called! ");
-        setLoading(true);
-        try {
-            const res = await axios.post('http://localhost:5555/user/getStocks', {
-                email: email
-            }, {
-                headers: {
-                    'Access-Control-Allow-Origin': 'http://localhost:3000',
-                    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-                }
-            });
-            console.log("AWS API RES: ", res.data);
-            setLoading(false);
-            return res.data;
-        } catch (error) {
-            console.log("9090");
-            console.log(error.message);
-            setLoading(false);
-            return [];
+    //not updating the price if its less than 12hrs
+    const isUpdateRequired = (email) => {
+        const storedData = localStorage.getItem(email);
+        if (!storedData) {
+            // No stored data, update is required
+            return true;
         }
+    
+        const lastUpdateTime = new Date(JSON.parse(storedData).lastUpdatedTime);
+        const currentTime = new Date();
+        const timeDiffMs = Math.abs(currentTime - lastUpdateTime);
+        const timeDiffHrs = timeDiffMs / (1000 * 60 * 60);
+    
+        // Check if update is required based on the time difference
+        return timeDiffHrs >= 12;
     };
     
-    
+    const perUserFetch = async (email) => {
+        if(isUpdateRequired(email)) {
+            try {
+                const res = await axios.post('http://localhost:5555/user/getStocks', {
+                    email: email
+                }, {
+                    headers: {
+                        'Access-Control-Allow-Origin': 'http://localhost:3000',
+                        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+                    }
+                });
+                
+                console.log("🤠🐸🤠", res)
+                //storing the data in local storage
+                const dataToStore = {
+                    lastUpdatedTime: new Date().toISOString(),
+                    currentVal: res.data.currentVal,
+                    totalVal: res.data.investedVal
+                };
+                console.log("🤠🤠", dataToStore)
+                localStorage.setItem(email, JSON.stringify(dataToStore));
 
-    useEffect(() => {
-        console.log("Coins:", ccc);
-    }, [ccc]);
-    
-    useEffect(() => {
-        console.log("Last Updated:", lastUpdated);
-    }, [lastUpdated]);
-    
+                return res.data;
+            } catch (error) {
+                console.log("9090");
+                console.log(error.message);
+                setLoading(false);
+                return [];
+            }
+        }
+        else {
+            let prices = {
+                "investedVal" : localStorage.getItem("currentVal"),
+                "currentVal" : localStorage.getItem("totalVal")
+            }
+            return prices
+        }
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             try {
