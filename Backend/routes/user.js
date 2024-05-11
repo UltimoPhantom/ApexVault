@@ -2,6 +2,8 @@ import express from "express";
 import { User } from "../modules/userModels.js";
 import jwt from 'jsonwebtoken';
 import { jwt_sign }from '../config.js'
+import axios from 'axios';
+import { aws_api_peruser } from "../config.js";
 
 const createToken = (_id) => {
     return jwt.sign({_id}, jwt_sign, { expiresIn: '7d' })
@@ -36,5 +38,25 @@ router.post('/signup', async (req, res) => {
         res.status(400).json({error: error.message})
     }
 })
+
+
+router.post('/getStocks', async (req, res) => {
+    const { email } = req.body;
+    try {
+        const response = await axios.post(aws_api_peruser , {
+            email: email
+        });
+        
+        console.log("🐸🐸 ", response.data);
+        res.status(200).json({
+          investedVal: response.data.investedVal,
+          currentVal: response.data.currentVal,
+        });
+        
+    } catch(error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
 export default router;
