@@ -3,6 +3,11 @@ import { Stock } from "../modules/stockModels.js";
 import requireAuth from "../middleware/requireAuth.js";
 import { User } from "../modules/userModels.js";
 import axios from "axios"; // Import Axios
+import { readFile } from 'fs/promises';
+import path from "path";
+import { fileURLToPath } from "url";
+import { dir } from "console";
+import { aws_api_stockPriceSingle } from "../config.js";
 
 const router = express.Router();
 
@@ -184,3 +189,67 @@ router.post('/histdata', async (req, res) => {
     }
 });
 export default router;
+
+
+async function checkStockExists(stockName) {
+    try {
+
+        const dirname = path.dirname(fileURLToPath(import.meta.url))
+        console.log("📕 ", dir)
+        const filePath = path.join(dirname, "symbols.txt")
+        console.log("📕📕 ", filePath)
+        
+        
+        const data = await readFile(filePath, 'utf8');
+        const exists = data.includes(stockName);
+        console.log("📕📕📕 ", exists)
+
+        return exists;
+    } catch (err) {
+        throw err;
+    }
+}
+
+router.post('/addStock', async(req, res) => {
+    console.log("🐸 1")
+    try {
+        const { stockName, quantity, price, email } = req.body;
+        
+        if(quantity == 0)
+            throw new Error("Quantity can't be zero!")
+        
+        if(price <= 0)
+            throw new Error("Invalid price!")
+        
+        console.log("🐸 2")
+        
+        checkStockExists(stockName)
+        .then(exists => {
+            if (!exists) 
+                throw new Error("Invalid Stock Symbol!!")
+            
+        })
+        .catch(err => console.error('Error:', err));
+        
+        console.log("symbol veficitation ✔️")
+        const response = await axios.post(aws_api_stockPriceSingle, {
+            stockName
+        });
+        console.log("🐸 LTP:  ", response.data.LTP)
+        
+        const newStock = {
+            name: stockName,
+            price: price,
+            quantity: quantity,
+            LTP: response.data.LTP,
+            email: email
+        };
+        
+        const stock = await Stock.create(newStock);
+        console.log("🐸 Added new stock ✔️")
+        return res.status(201).send({message: "New Stock Added " + stockName});
+    } catch(error) {
+        console.log(error.message);
+        res.status(500).send({message: error.message})
+    }
+})
