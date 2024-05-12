@@ -24,7 +24,6 @@ router.post('/histdata', async (req, res) => {
         });
 
         const responseData = response.data;
-        console.log("RES RES: ", responseData)
 
         // Return the data received from the external API
         return res.status(200).send(responseData);
@@ -89,8 +88,6 @@ router.get('/', async (req, res) => {
             totalCoins += s.LTP * s.quantity;
         }
 
-            console.log("COINS: ", coins)
-            console.log("TOTAL: ", totalCoins)
         return res.status(200).send({ stock: stock, last_updated: last_updated, coins: coins, totalCoins: totalCoins });
     } catch (error) {
         console.log(error);
@@ -179,7 +176,6 @@ router.post('/histdata', async (req, res) => {
         });
 
         const responseData = response.data;
-        console.log("RES RES: ", responseData)
 
         // Return the data received from the external API
         return res.status(200).send(responseData);
@@ -195,14 +191,9 @@ async function checkStockExists(stockName) {
     try {
 
         const dirname = path.dirname(fileURLToPath(import.meta.url))
-        console.log("📕 ", dir)
         const filePath = path.join(dirname, "symbols.txt")
-        console.log("📕📕 ", filePath)
-        
-        
         const data = await readFile(filePath, 'utf8');
         const exists = data.includes(stockName);
-        console.log("📕📕📕 ", exists)
 
         return exists;
     } catch (err) {
@@ -211,7 +202,6 @@ async function checkStockExists(stockName) {
 }
 
 router.post('/addStock', async(req, res) => {
-    console.log("🐸 1")
     try {
         const { stockName, quantity, price, email } = req.body;
         
@@ -221,7 +211,6 @@ router.post('/addStock', async(req, res) => {
         if(price <= 0)
             throw new Error("Invalid price!")
         
-        console.log("🐸 2")
         
         checkStockExists(stockName)
         .then(exists => {
@@ -231,11 +220,9 @@ router.post('/addStock', async(req, res) => {
         })
         .catch(err => console.error('Error:', err));
         
-        console.log("symbol veficitation ✔️")
         const response = await axios.post(aws_api_stockPriceSingle, {
             stockName
         });
-        console.log("🐸 LTP:  ", response.data.LTP)
         
         const newStock = {
             name: stockName,
@@ -246,7 +233,7 @@ router.post('/addStock', async(req, res) => {
         };
         
         const stock = await Stock.create(newStock);
-        console.log("🐸 Added new stock ✔️")
+        console.log("New Stock Added " + stockName)
         return res.status(201).send({message: "New Stock Added " + stockName});
     } catch(error) {
         console.log(error.message);
