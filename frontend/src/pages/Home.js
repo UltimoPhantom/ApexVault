@@ -12,12 +12,13 @@ import Navbar from '../components/Navbar';
 const AWS = require('aws-sdk')
 const aws_api_url = 'https://ddwtmrp2ib.execute-api.ap-southeast-2.amazonaws.com/default/apexValue_9'
 
+
 const Home = () => {
     const [stocks, setStocks] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [invested_val, setInvested_val] = useState();
+    const [current_val, setcurrent_val] = useState();
 
-    const [invested_val, setInvested_val] = useState(100);
-    const [current_val, setcurrent_val] = useState(120);
     const [ccc, setCoins] = useState(0);
     const [lastUpdated, setLastUpdated] = useState("");
 
@@ -33,13 +34,18 @@ const Home = () => {
                     'Authorization': `Bearer ${user.token}`
                 }
             });
-            return response.data;
+            return response.data; 
         } catch (error) {
             console.error("Error fetching stocks:", error);
             throw error;
         }
 
     };
+
+    const getTotalCoins = async () => {
+        console.log("EMAIL:: ", user.email)
+
+    }
 
 
     const callLambda = async () => {
@@ -50,8 +56,8 @@ const Home = () => {
             const year = now.getDate();
             const today = datee + " " + month + " " + year;
                 const response = await axios.get(aws_api_url);
-                setInvested_val(response.data.currentVal)
-                setcurrent_val(response.data.investedVal)
+                // setInvested_val(response.data.currentVal)
+                // setcurrent_val(response.data.investedVal)
                 return
         
         } catch (error) {
@@ -60,30 +66,72 @@ const Home = () => {
         }
     };
 
+    //not updating the price if its less than 12hrs
+    const isUpdateRequired = (email) => {
+        const storedData = localStorage.getItem(email);
+        if (!storedData) {
+            // No stored data, update is required
+            return true;
+        }
 
-
-    useEffect(() => {
-
-        console.log("Coins:", ccc);
-    }, [ccc]);
     
-    useEffect(() => {
-        console.log("Last Updated:", lastUpdated);
-    }, [lastUpdated]);
+        const lastUpdateTime = new Date(JSON.parse(storedData).lastUpdatedTime);
+        const currentTime = new Date();
+        const timeDiffMs = Math.abs(currentTime - lastUpdateTime);
+        const timeDiffHrs = timeDiffMs / (1000 * 60 * 60);
     
+        // Check if update is required based on the time difference
+        return timeDiffHrs >= 12;
+    };
+    
+    const perUserFetch = async (email) => {
+        if(isUpdateRequired(email)) {
+            try {
+                const res = await axios.post('http://localhost:5555/user/getStocks', {
+                    email: email
+                }, {
+                    headers: {
+                        'Access-Control-Allow-Origin': 'http://localhost:3000',
+                        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+                    }
+                });
+                
+                //storing the data in local storage
+                const dataToStore = {
+                    lastUpdatedTime: new Date().toISOString(),
+                    currentVal: res.data.currentVal,
+                    totalVal: res.data.investedVal
+                };
+                localStorage.setItem(email, JSON.stringify(dataToStore));
+
+                return res.data;
+            } catch (error) {
+                console.log(error.message);
+                setLoading(false);
+                return [];
+            }
+        }
+        else {
+            let prices = {
+                "investedVal" : localStorage.getItem("currentVal"),
+                "currentVal" : localStorage.getItem("totalVal")
+            }
+            return prices
+        }
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setLoading(true);
                 if (user) {
+                    const r = await perUserFetch(user.email)
+                    setInvested_val(r['investedVal'])
+                    setcurrent_val(r['currentVal'])
                     const fetchedData = await fetchStocks();
-                    
-                    const stockk = fetchedData.stock;
-                    setStocks(stockk);
-    
-                    const coons = fetchedData.coins;
-                    setCoins(coons);
-    
+                    setStocks(fetchedData.stock);
+                    setInvested_val(fetchedData.coins)
+                    setcurrent_val(fetchedData.totalCoins)
                     setLastUpdated(fetchedData.last_updated);
                 }
 
@@ -99,9 +147,6 @@ const Home = () => {
         fetchData();
         callLambda();
     }, [user, setStocks, setCoins, setLastUpdated]);
-
-    
-
 
     return (
         <div className='p-4 h-screen w-screen' style={{ backgroundImage: 'url("https://i.postimg.cc/xdLxBnDH/IMG-BG-001.jpg")', backgroundSize: 'cover' }}>

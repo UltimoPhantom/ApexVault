@@ -42,6 +42,7 @@ import Login from './pages/Login';
 // =======
 import { useAuthContext } from './hooks/useAuthContext';
 import { StyledEngineProvider } from '@mui/material/styles';
+import GetHistChart from './components/GetHistChart';
 
 function App() {
   const { user } = useAuthContext();
