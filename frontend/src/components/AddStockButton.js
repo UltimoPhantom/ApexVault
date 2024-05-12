@@ -3,6 +3,7 @@ import { useAuthContext } from '../hooks/useAuthContext';
 import ErrorMessage from './ErrorMessage';
 import StockSearch from './StockSearch';
 import axios from 'axios';
+import Spinner from './Spinner'; 
 
 const CustomDialog = () => {
     const { user } = useAuthContext()
@@ -12,8 +13,8 @@ const CustomDialog = () => {
     const [symbol, setSymbol] = useState("");
     const [quantity, setQuantity] = useState(0);
     const [price, setPrice] = useState(0);
-    const [error, setError] = useState(null);
-    const [isLoding, setIsLoding] = useState(false);
+    const [isLoading, setIsLoading] = useState(false); 
+    const [errorMessage, setErrorMessage] = useState(null)
 
     const handleClickOpen = () => {
         setIsOpen(true);
@@ -23,9 +24,11 @@ const CustomDialog = () => {
         setIsOpen(false);
     };
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+        setIsLoading(true); 
+
         const stock = { stockName: symbol, price, quantity, email };
         try {
             const response = await axios.post('http://localhost:5555/stocks/addStock', stock, {
@@ -34,34 +37,35 @@ const CustomDialog = () => {
                     'Authorization': `Bearer ${user.token}`
                 }
             });
-    
-            console.log("🐸🐸 ", response.data);
-    
-            if (!response.ok) {
-                console.log(error);
-            }
-    
-            if (response.ok) {
+
+            setIsLoading(false); 
+            
+            if (response.status !== 201) {
+                console.log("🦚🦚 ",response.data.message )
+                setErrorMessage(response.data.message); 
+            } else {
                 window.location.reload();
             }
         } catch (error) {
-            console.log('Error ', error);
+            setIsLoading(false); 
+            console.log('Error: ', error);
+            if (error.response && error.response.data && error.response.data.message) {
+                console.log("Error Message: ", error.response.data.message);
+                setErrorMessage(error.response.data.message); 
+            
+            }    
         }
     };
-    
 
     return (
         <div>
-        <a href="#_" className="relative inline-flex items-center justify-start px-8 py-4 overflow-hidden font-medium transition-all bg-green-500 rounded-xl group" onClick={handleClickOpen}>
-            <span className="absolute top-0 right-0 inline-block w-5 h-5 transition-all duration-500 ease-in-out bg-green-700 rounded group-hover:-mr-5 group-hover:-mt-5">
-                <span className="absolute top-0 right-0 w-6 h-6 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"></span>
-            </span>
-            <span className="absolute bottom-0 left-0 w-full h-full transition-all duration-500 ease-in-out delay-200 -translate-x-full translate-y-full bg-green-600 rounded-2xl group-hover:mb-16 group-hover:translate-x-0"></span>
-            <span className="relative w-full text-left font-bold text-white transition-colors duration-200 ease-in-out group-hover:text-white">Add Stocks!</span>
-        </a>
-            {/* <button onClick={handleClickOpen} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-16">
-                Add Stocks
-            </button> */}
+            <a href="#_" className="relative inline-flex items-center justify-start px-8 py-4 overflow-hidden font-medium transition-all bg-green-500 rounded-xl group" onClick={handleClickOpen}>
+                <span className="absolute top-0 right-0 inline-block w-5 h-5 transition-all duration-500 ease-in-out bg-green-700 rounded group-hover:-mr-5 group-hover:-mt-5">
+                    <span className="absolute top-0 right-0 w-6 h-6 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"></span>
+                </span>
+                <span className="absolute bottom-0 left-0 w-full h-full transition-all duration-500 ease-in-out delay-200 -translate-x-full translate-y-full bg-green-600 rounded-2xl group-hover:mb-16 group-hover:translate-x-0"></span>
+                <span className="relative w-full text-left font-bold text-white transition-colors duration-200 ease-in-out group-hover:text-white">Add Stocks!</span>
+            </a>
             {isOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center ">
                     <div className="absolute inset-0 bg-gray-900 opacity-75" onClick={handleClose}></div>
@@ -101,6 +105,8 @@ const CustomDialog = () => {
                                 <span className="relative invisible">Add Stock</span>
                             </a>
                         </div>
+                        {isLoading && <Spinner />} {/* Display loading spinner */}
+                        {errorMessage && <ErrorMessage text={errorMessage} />} {/* Display error message */}
                     </div>
                 </div>
             )}
