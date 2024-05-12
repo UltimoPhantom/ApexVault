@@ -189,7 +189,6 @@ export default router;
 
 async function checkStockExists(stockName) {
     try {
-
         const dirname = path.dirname(fileURLToPath(import.meta.url))
         const filePath = path.join(dirname, "symbols.txt")
         const data = await readFile(filePath, 'utf8');
@@ -205,20 +204,17 @@ router.post('/addStock', async(req, res) => {
     try {
         const { stockName, quantity, price, email } = req.body;
         
-        if(quantity == 0)
+        if(quantity <= 0)
             throw new Error("Quantity can't be zero!")
         
         if(price <= 0)
             throw new Error("Invalid price!")
         
         
-        checkStockExists(stockName)
-        .then(exists => {
-            if (!exists) 
-                throw new Error("Invalid Stock Symbol!!")
-            
-        })
-        .catch(err => console.error('Error:', err));
+        const exists = await checkStockExists(stockName);
+        if (!exists) {
+            throw new Error("Invalid Stock Symbol!!");
+        }
         
         const response = await axios.post(aws_api_stockPriceSingle, {
             stockName
