@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAuthContext } from '../hooks/useAuthContext';
 import ErrorMessage from './ErrorMessage';
 import StockSearch from './StockSearch';
+import axios from 'axios';
 
 const CustomDialog = () => {
     const { user } = useAuthContext()
@@ -12,7 +13,7 @@ const CustomDialog = () => {
     const [quantity, setQuantity] = useState(0);
     const [price, setPrice] = useState(0);
     const [error, setError] = useState(null);
-
+    const [isLoding, setIsLoding] = useState(false);
 
     const handleClickOpen = () => {
         setIsOpen(true);
@@ -24,38 +25,30 @@ const CustomDialog = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const stock = { name: symbol, price: price, quantity: quantity, email };
-        console.log(stock);
+    
+        const stock = { stockName: symbol, price, quantity, email };
         try {
-            const response = await fetch('http://localhost:5555/stocks', {
-                method: 'POST',
-                body: JSON.stringify(stock),
+            const response = await axios.post('http://localhost:5555/stocks/addStock', stock, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${user.token}`
                 }
-            })
-
-            const json = await response.json()
-
-            if(!response.ok) {
-                setError(json.error)
-                console.log(error)
-                alert(json.error)
-                // handleClickOpen()
+            });
+    
+            console.log("🐸🐸 ", response.data);
+    
+            if (!response.ok) {
+                console.log(error);
             }
-
-            if(response.ok) {
-                handleClose()
-                // window.location.reload();
-                
+    
+            if (response.ok) {
+                window.location.reload();
             }
-        } 
-        catch(error) {
-            console.log('Eror ', error);
+        } catch (error) {
+            console.log('Error ', error);
         }
-    }
+    };
+    
 
     return (
         <div>
