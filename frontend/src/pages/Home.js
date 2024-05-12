@@ -93,19 +93,16 @@ const Home = () => {
                     }
                 });
                 
-                console.log("🤠🐸🤠", res)
                 //storing the data in local storage
                 const dataToStore = {
                     lastUpdatedTime: new Date().toISOString(),
                     currentVal: res.data.currentVal,
                     totalVal: res.data.investedVal
                 };
-                console.log("🤠🤠", dataToStore)
                 localStorage.setItem(email, JSON.stringify(dataToStore));
 
                 return res.data;
             } catch (error) {
-                console.log("9090");
                 console.log(error.message);
                 setLoading(false);
                 return [];
@@ -133,7 +130,6 @@ const Home = () => {
                     setInvested_val(fetchedData.coins)
                     setcurrent_val(fetchedData.totalCoins)
                     setLastUpdated(fetchedData.last_updated);
-                    console.log(lastUpdated)
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);
