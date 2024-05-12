@@ -1,6 +1,9 @@
 import express from "express";
 import { Stock } from "../modules/stockModels.js";
 import requireAuth from "../middleware/requireAuth.js";
+
+
+
 import { User } from "../modules/userModels.js";
 import axios from "axios"; // Import Axios
 import { readFile } from 'fs/promises';
@@ -10,6 +13,7 @@ import { dir } from "console";
 import { aws_api_stockPriceSingle } from "../config.js";
 
 const router = express.Router();
+
 
 router.use(requireAuth)
 
@@ -37,7 +41,11 @@ router.post('/histdata', async (req, res) => {
 // Route to save new stocks
 router.post('/', async (req, res) => {
     try {
+
+
+
         const { name, price, quantity, LTP, email } = req.body;
+
 
         if (!name || !price) {
             return res.status(400).send({ message: "Name and price are required fields." });
@@ -58,6 +66,7 @@ router.post('/', async (req, res) => {
             price: price,
             quantity: quantity,
             LTP: LTP,
+            user_id: user_id
             email: email,
             buy_date: toDay
         };

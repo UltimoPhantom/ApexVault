@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { MdOutlineAddBox } from 'react-icons/md';
 import Spinner from '../components/Spinner';
+
 import Stock from '../components/Stock';
 import { useAuthContext } from '../hooks/useAuthContext';
 import LogoutButton from '../components/LogoutButton';
@@ -18,6 +18,7 @@ const Home = () => {
     const [loading, setLoading] = useState(false);
     const [invested_val, setInvested_val] = useState();
     const [current_val, setcurrent_val] = useState();
+
     const [ccc, setCoins] = useState(0);
     const [lastUpdated, setLastUpdated] = useState("");
 
@@ -38,6 +39,7 @@ const Home = () => {
             console.error("Error fetching stocks:", error);
             throw error;
         }
+
     };
 
     const getTotalCoins = async () => {
@@ -71,6 +73,7 @@ const Home = () => {
             // No stored data, update is required
             return true;
         }
+
     
         const lastUpdateTime = new Date(JSON.parse(storedData).lastUpdatedTime);
         const currentTime = new Date();
@@ -131,19 +134,19 @@ const Home = () => {
                     setcurrent_val(fetchedData.totalCoins)
                     setLastUpdated(fetchedData.last_updated);
                 }
+
             } catch (error) {
                 console.error("Error fetching data:", error);
             } finally {
                 setLoading(false);
             }
         };
+  // No need to check for 'user' here, just call the FetchData function directly
+
     
         fetchData();
         callLambda();
     }, [user, setStocks, setCoins, setLastUpdated]);
-
-
-
 
     return (
         <div className='p-4 h-screen w-screen' style={{ backgroundImage: 'url("https://i.postimg.cc/xdLxBnDH/IMG-BG-001.jpg")', backgroundSize: 'cover' }}>
@@ -151,6 +154,7 @@ const Home = () => {
                 <Spinner />
             ) : (
                 <div>
+
                     <Navbar investedVal={invested_val} currentVal={current_val} />
 
                     <div className='w-full grid grid-cols-1 gap-1 sm:grid-cols-1 md:grid-cols-6 lg:grid-cols-5 my-8'>
