@@ -17,12 +17,23 @@ const CustomDialog = () => {
     const [errorMessage, setErrorMessage] = useState(null)
 
     const handleClickOpen = () => {
+        fakeAWSCall();
         setIsOpen(true);
     };
 
     const handleClose = () => {
         setIsOpen(false);
     };
+
+    //making a fake call to lambda => no cold start
+    const fakeAWSCall = () => { 
+        axios.post('https://a4c8scumte.execute-api.ap-southeast-2.amazonaws.com/default/StockPriceFetchSingle', )
+        .then(response => {
+            console.log('AWS Lambda Wake up call');
+        })
+        .catch(error => {
+        });
+    }
 
 
     const handleSubmit = async (e) => {
@@ -38,7 +49,7 @@ const CustomDialog = () => {
                 }
             });
 
-            setIsLoading(false); 
+            // setIsLoading(false); 
             
             if (response.status !== 201) {
                 console.log("🦚🦚 ",response.data.message )
@@ -47,7 +58,7 @@ const CustomDialog = () => {
                 window.location.reload();
             }
         } catch (error) {
-            setIsLoading(false); 
+            // setIsLoading(false); 
             console.log('Error: ', error);
             if (error.response && error.response.data && error.response.data.message) {
                 console.log("Error Message: ", error.response.data.message);
