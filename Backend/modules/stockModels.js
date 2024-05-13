@@ -24,10 +24,6 @@ export const stockSchema = mongoose.Schema({
         required: true
     },
 
-    user_id: {
-        type: String,
-        required: true
-
     buy_date: {
         type: String,
         required: false,

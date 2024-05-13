@@ -66,7 +66,6 @@ router.post('/', async (req, res) => {
             price: price,
             quantity: quantity,
             LTP: LTP,
-            user_id: user_id
             email: email,
             buy_date: toDay
         };
