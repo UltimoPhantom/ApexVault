@@ -235,10 +235,17 @@ router.post('/addStock', async(req, res) => {
             LTP: response.data.LTP,
             email: email
         };
+
+        const cur_val = quantity * response.data.LTP
+        const invest_val = quantity * price
+        const prices = {
+            "currentVal": cur_val,
+            "investedVal": invest_val
+        }
         
         const stock = await Stock.create(newStock);
         console.log("New Stock Added " + stockName)
-        return res.status(201).send({message: "New Stock Added " + stockName});
+        return res.status(201).send(prices);
     } catch(error) {
         console.log(error.message);
         res.status(500).send({message: error.message})
