@@ -9,7 +9,6 @@ import LogoutButton from '../components/LogoutButton';
 import AddStockButton from '../components/AddStockButton';
 import Navbar from '../components/Navbar';
 
-const AWS = require('aws-sdk')
 const aws_api_url = 'https://ddwtmrp2ib.execute-api.ap-southeast-2.amazonaws.com/default/apexValue_9'
 
 
@@ -41,12 +40,6 @@ const Home = () => {
         }
 
     };
-
-    const getTotalCoins = async () => {
-        console.log("EMAIL:: ", user.email)
-
-    }
-
 
     const callLambda = async () => {
         try {
@@ -143,9 +136,7 @@ const Home = () => {
         };
   // No need to check for 'user' here, just call the FetchData function directly
 
-    
         fetchData();
-        callLambda();
     }, [user, setStocks, setCoins, setLastUpdated]);
 
     return (
@@ -155,7 +146,15 @@ const Home = () => {
             ) : (
                 <div>
 
-                    <Navbar investedVal={invested_val} currentVal={current_val} />
+                    <Navbar 
+                        investedVal={invested_val} 
+                        currentVal={current_val} 
+                        updateInvestedValAndCurrentVal={(investedVal, currentVal) => {
+                            setInvested_val(investedVal);
+                            setcurrent_val(currentVal);
+                        }}
+                    />
+
 
                     <div className='w-full grid grid-cols-1 gap-1 sm:grid-cols-1 md:grid-cols-6 lg:grid-cols-5 my-8'>
                         {stocks && stocks.length > 0 ? (
