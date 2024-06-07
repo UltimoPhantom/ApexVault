@@ -156,15 +156,18 @@ const Home = () => {
                     />
 
 
-                    <div className='w-full grid grid-cols-1 gap-1 sm:grid-cols-1 md:grid-cols-6 lg:grid-cols-5 my-8'>
-                        {stocks && stocks.length > 0 ? (
-                            stocks.map((stock, index) => (
-                                <Stock key={index} name={stock.name} price={stock.price} id={stock.id} quantity={stock.quantity} LTP={stock.LTP} />
-                            ))
-                        ) : (
-                            <p className='text-center'>No stocks available</p>
-                        )}
-                    </div>
+            <div className='w-full grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-5 my-8'>
+            {stocks && stocks.length > 0 ? (
+                stocks.map((stock, index) => (
+                <Stock key={index} name={stock.name} price={stock.price} id={stock.id} quantity={stock.quantity} LTP={stock.LTP} />
+                ))
+            ) : (
+                <p className='text-center col-span-full'>No stocks available</p>
+            )}
+            </div>
+
+
+
                 </div>
             )}
         </div>

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useAuthContext } from '../hooks/useAuthContext';
 import ErrorMessage from './ErrorMessage';
-import StockSearch from './StockSearch';
 import axios from 'axios';
 import Spinner from './Spinner'; 
 
@@ -49,7 +48,7 @@ const CustomDialog = () => {
                 }
             });
 
-            // setIsLoading(false); 
+            setIsLoading(false); 
             
             if (response.status !== 201) {
                 console.log("🦚🦚 ",response.data.message )
@@ -58,7 +57,7 @@ const CustomDialog = () => {
                 window.location.reload();
             }
         } catch (error) {
-            // setIsLoading(false); 
+            setIsLoading(false); 
             console.log('Error: ', error);
             if (error.response && error.response.data && error.response.data.message) {
                 console.log("Error Message: ", error.response.data.message);
@@ -90,7 +89,6 @@ const CustomDialog = () => {
                             className="block w-full p-3 bg-gray-100 border border-gray-300 text-gray-900 rounded-lg mb-4"
                             required
                         />
-                        <StockSearch />
                         <h2 className="text-2xl font-bold mb-4">Quantity:</h2>
                         <input
                             type="number"

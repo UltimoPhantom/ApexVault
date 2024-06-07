@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useAuthContext } from '../hooks/useAuthContext';
 import ErrorMessage from './ErrorMessage';
-import StockSearch from './StockSearch';
 import StockChart from './StockChart';
 import ReactDOM from 'react-dom'; // Import ReactDOM
 
