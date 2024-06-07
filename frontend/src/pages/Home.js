@@ -140,7 +140,8 @@ const Home = () => {
     }, [user, setStocks, setCoins, setLastUpdated]);
 
     return (
-        <div className='p-4 h-screen w-screen' style={{ backgroundImage: 'url("https://i.postimg.cc/xdLxBnDH/IMG-BG-001.jpg")', backgroundSize: 'cover' }}>
+        <div className='p-4 h-screen w-screen' style={{ backgroundImage: 'url("https://i.postimg.cc/xdLxBnDH/IMG-BG-001.jpg")', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}>
+
             {loading ? (
                 <Spinner />
             ) : (
@@ -156,7 +157,7 @@ const Home = () => {
                     />
 
 
-            <div className='w-full grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-5 my-8'>
+            <div className='w-full grid grid-cols-1 gap-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-5 my-6'> {/* Changed gap-2 to gap-3 and my-4 to my-6 */}
             {stocks && stocks.length > 0 ? (
                 stocks.map((stock, index) => (
                 <Stock key={index} name={stock.name} price={stock.price} id={stock.id} quantity={stock.quantity} LTP={stock.LTP} />
@@ -165,9 +166,6 @@ const Home = () => {
                 <p className='text-center col-span-full'>No stocks available</p>
             )}
             </div>
-
-
-
                 </div>
             )}
         </div>
