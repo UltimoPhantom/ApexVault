@@ -25,13 +25,20 @@ const CustomDialog = () => {
     };
 
     //making a fake call to lambda => no cold start
-    const fakeAWSCall = () => { 
-        axios.post('https://a4c8scumte.execute-api.ap-southeast-2.amazonaws.com/default/StockPriceFetchSingle', )
-        .then(response => {
-            console.log('AWS Lambda Wake up call');
-        })
-        .catch(error => {
-        });
+    const fakeAWSCall = async() => { 
+        const stock = { stockName: "Fake_Name_12323", price, quantity, email };
+
+        try {
+            console.log("CALLED 🚀🚀")
+            const response = await axios.post('http://localhost:5555/stocks/addStock', stock, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user.token}`
+                }
+            });
+
+        } catch (error) {
+        }
     }
 
 
@@ -51,7 +58,6 @@ const CustomDialog = () => {
             setIsLoading(false); 
             
             if (response.status !== 201) {
-                console.log("🦚🦚 ",response.data.message )
                 setErrorMessage(response.data.message); 
             } else {
                 window.location.reload();
