@@ -154,6 +154,7 @@ const Home = () => {
                             setInvested_val(investedVal);
                             setcurrent_val(currentVal);
                         }}
+                        name = {user.email.split('@')[0]}
                     />
 
 

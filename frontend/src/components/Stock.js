@@ -2,33 +2,13 @@ import React from 'react';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { MdOutlineDelete } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import DeleteStock from './DeleteStocks';
 
 const StockDetail = ({ name, price, id, quantity, LTP }) => {
   const percentage = ((LTP - price) / price * 100).toFixed(2);
   const sign = percentage >= 0 ? '+' : '-';
   const color = sign === '+' ? 'text-green-500' : 'text-red-500';
 
-  const deleteStock = async () => {
-    try {
-      alert(name + " deleted!!")
-      const response = await fetch(`/stocks/delete/${encodeURIComponent(name)}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      });
-
-      if (!response.ok) {
-        const errorMessage = await response.json();
-        throw new Error(errorMessage.message || 'Failed to delete stock');
-      }
-
-      const data = await response.json();
-      console.log(data.message); 
-    } catch (error) {
-      console.error('Error deleting stock:', error.message);
-    }
-  }
 
   return (
     <div className='center justify-center mx-3 group mb-3'> {/* Changed mx-2 to mx-3 and mb-2 to mb-3 */}
@@ -44,9 +24,7 @@ const StockDetail = ({ name, price, id, quantity, LTP }) => {
             <h2 className='text-cyan-300 mr-1'>Avg: {`${price}`}</h2>
           </div>
           <div className='flex items-center mt-5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out'> {/* Changed mt-4 to mt-5 */}
-            <button onClick={deleteStock}>
-              <MdOutlineDelete className='text-2xl text-red-600 mr-2' />
-            </button>
+            <DeleteStock />
           </div>
         </div>
       </div>
@@ -63,5 +41,9 @@ const PercentChange = ({ price, LTP }) => {
     <p className={`justify-center center text-xl ${color}`}>{sign}{Math.abs(percentage)}%</p>
   );
 }
+
+const deleteStock  = (e) =>  {
+
+} 
 
 export default StockDetail;
