@@ -42,8 +42,6 @@ router.post('/histdata', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
 
-
-
         const { name, price, quantity, LTP, email } = req.body;
 
 

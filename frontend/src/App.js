@@ -4,7 +4,7 @@ import Home from './pages/Home';
 import ShowStocks from './pages/ShowStocks';
 import CreateStocks from './pages/CreateStocks';
 import EditStocks from './pages/EditStock';
-import DeleteStocks from './pages/DeleteStocks';
+// import DeleteStocks from './pages/DeleteStocks';
 import Login from './pages/Login';
 // // import { useAuthContext } from '../src/hooks/useAuthContext';
 
@@ -58,7 +58,7 @@ function App() {
             <Route path="/stocks/create" element={<CreateStocks />} />
             <Route path="/stocks/details/:id" element={<ShowStocks />} />
             <Route path="/stocks/edit/:id" element={<EditStocks />} />
-            <Route path="/stocks/delete/:id" element={<DeleteStocks />} />
+            {/* <Route path="/stocks/delete/:id" element={<DeleteStocks />} /> */}
           </Routes>
         </Router>
       </div>
