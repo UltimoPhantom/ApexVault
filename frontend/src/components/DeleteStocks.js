@@ -15,6 +15,9 @@ const DeleteStock = ({ name, LTP, price, quantity }) => {
 
     const handleClickOpen = () => {
         setIsOpen(true);
+        setTimeout(() => {
+            setIsOpen(false);
+        }, 3000);
     };
 
     const handleClose = () => {
@@ -63,7 +66,7 @@ const DeleteStock = ({ name, LTP, price, quantity }) => {
                     <div className="absolute inset-0 bg-gray-900 opacity-75" onClick={handleClose}></div>
                     
                     <div className="bg-white rounded-lg p-8 max-w-lg z-50 w-96 relative">
-                        <p>Are you sure you want to delete {name}?</p>
+                        <p>Are you sure you want to sell?</p>
                         <div className="mt-4 flex justify-end">
                             <button className="bg-red-500 text-white px-4 py-2 rounded mr-2" onClick={handleConfirmDelete}>Yes</button>
                             <button className="bg-gray-300 text-black px-4 py-2 rounded" onClick={handleClose}>No</button>

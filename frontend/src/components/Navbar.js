@@ -9,6 +9,8 @@ const Navbar = ({ investedVal, currentVal, name }) => {
     const sign = percentage >= 0 ? '+' : '-';
     const color = sign === '+' ? 'text-green-500' : 'text-red-500';
     const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1);
+    const roundedInvestedVal = investedVal?.toFixed(2);
+    const roundedCurrentVal = currentVal?.toFixed(2);
 
     return (
         <div className='flex flex-row items-center justify-between px-5 py-3'>
@@ -17,8 +19,8 @@ const Navbar = ({ investedVal, currentVal, name }) => {
 
             </h1>
             <div className='flex flex-row items-center space-x-10'>
-                <h1 className='text-3xl font-extrabold text-black'>Invested: ₹{investedVal}</h1>
-                <h1 className='text-3xl font-extrabold text-black'>Current: ₹{currentVal}</h1>
+                <h1 className='text-3xl font-extrabold text-black'>Invested: ₹{roundedInvestedVal}</h1>
+                <h1 className='text-3xl font-extrabold text-black'>Current: ₹{roundedCurrentVal}</h1>
                 <h1 className={`text-4xl font-extrabold ${color}`}>{sign}{percentage.toFixed(2)}%</h1>
             </div>
             <div className='flex flex-row items-center space-x-4'>
