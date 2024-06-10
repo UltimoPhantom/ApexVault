@@ -166,6 +166,7 @@ const Home = () => {
             ) : (
                 <p className='text-center col-span-full'>No stocks available</p>
             )}
+
             </div>
                 </div>
             )}
