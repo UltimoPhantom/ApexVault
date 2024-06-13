@@ -1,20 +1,46 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import Confetti from 'react-confetti';
+import { useAuthContext } from '../hooks/useAuthContext';
+import axios from 'axios';
+
 
 const ConfettiPortal = ({ isVisible, profitDetails, onClose, id }) => {
+    const { user } = useAuthContext()
     const [isConfettiVisible, setIsConfettiVisible] = useState(isVisible);
     const [statement, setStatement] = useState("")
+
+    const deleteStock = async (id) => {
+        console.log("✔️✔️✔️ Called: ", id)
+        try {
+            const response = await axios.delete(`http://localhost:5555/stocks/${id}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user.token}`
+                }
+            });
     
+            if (response.status !== 200) {
+            } else {
+                window.location.reload();
+            }
+        } catch (error) {
+
+            console.log('Error: ', error);
+        }
+    };
+    
+
     useEffect(() => {
         if (isVisible) {
             console.log(profitDetails.investedAmt, profitDetails.currAmt);
             const investedAmt = profitDetails?.investedAmt?.toFixed(2)
             const currAmt = profitDetails?.currAmt?.toFixed(2)
             const percentage = profitDetails?.percentage?.toFixed(2)
-
+            
             setStatement("You made a " + (investedAmt < currAmt ? "profit of ₹" : "loss of ₹") + (Math.abs(currAmt - investedAmt)) + " \n " + (percentage) + "%")
-
+            
+            deleteStock(id)
             const timer = setTimeout(() => {
                 setIsConfettiVisible(false);
                 onClose();
