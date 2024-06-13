@@ -42,7 +42,6 @@ import Login from './pages/Login';
 // =======
 import { useAuthContext } from './hooks/useAuthContext';
 import { StyledEngineProvider } from '@mui/material/styles';
-import GetHistChart from './components/GetHistChart';
 
 function App() {
   const { user } = useAuthContext();
@@ -58,7 +57,6 @@ function App() {
             <Route path="/stocks/create" element={<CreateStocks />} />
             <Route path="/stocks/details/:id" element={<ShowStocks />} />
             <Route path="/stocks/edit/:id" element={<EditStocks />} />
-            {/* <Route path="/stocks/delete/:id" element={<DeleteStocks />} /> */}
           </Routes>
         </Router>
       </div>
