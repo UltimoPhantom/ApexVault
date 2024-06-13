@@ -4,14 +4,13 @@ import Confetti from 'react-confetti';
 import { useAuthContext } from '../hooks/useAuthContext';
 import axios from 'axios';
 
-
 const ConfettiPortal = ({ isVisible, profitDetails, onClose, id }) => {
-    const { user } = useAuthContext()
+    const { user } = useAuthContext();
     const [isConfettiVisible, setIsConfettiVisible] = useState(isVisible);
-    const [statement, setStatement] = useState("")
+    const [statement, setStatement] = useState("");
 
     const deleteStock = async (id) => {
-        console.log("✔️✔️✔️ Called: ", id)
+        console.log("✔️✔️✔️ Called: ", id);
         try {
             const response = await axios.delete(`http://localhost:5555/stocks/${id}`, {
                 headers: {
@@ -21,34 +20,38 @@ const ConfettiPortal = ({ isVisible, profitDetails, onClose, id }) => {
             });
     
             if (response.status !== 200) {
+                console.log("Deletion failed: ", response.data.message);
             } else {
-                window.location.reload();
+                console.log("Deletion successful");
             }
         } catch (error) {
-
             console.log('Error: ', error);
         }
     };
-    
+
+    const handleClose = () => {
+        onClose();
+        window.location.reload();
+    };
 
     useEffect(() => {
         if (isVisible) {
             console.log(profitDetails.investedAmt, profitDetails.currAmt);
-            const investedAmt = profitDetails?.investedAmt?.toFixed(2)
-            const currAmt = profitDetails?.currAmt?.toFixed(2)
-            const percentage = profitDetails?.percentage?.toFixed(2)
+            const investedAmt = profitDetails?.investedAmt?.toFixed(2);
+            const currAmt = profitDetails?.currAmt?.toFixed(2);
+            const percentage = profitDetails?.percentage?.toFixed(2);
             
-            setStatement("You made a " + (investedAmt < currAmt ? "profit of ₹" : "loss of ₹") + (Math.abs(currAmt - investedAmt)) + " \n " + (percentage) + "%")
+            setStatement("You made a " + (investedAmt < currAmt ? "profit of ₹" : "loss of ₹") + (Math.abs(currAmt - investedAmt)) + " \n " + (percentage) + "%");
             
-            deleteStock(id)
+            deleteStock(id);
             const timer = setTimeout(() => {
                 setIsConfettiVisible(false);
-                onClose();
+                handleClose();
             }, 5000); 
 
-            return () => clearTimeout(timer); 
+            return () => clearTimeout(timer);
         }
-    }, [isVisible, onClose]);
+    }, [isVisible, profitDetails, id]);
 
     if (!isVisible) return null;
 
@@ -61,7 +64,7 @@ const ConfettiPortal = ({ isVisible, profitDetails, onClose, id }) => {
                 <div className="mt-4 flex justify-end">
                     <button
                         className="bg-green-500 text-white px-4 py-2 rounded"
-                        onClick={onClose}
+                        onClick={handleClose}
                     >
                         Close
                     </button>
