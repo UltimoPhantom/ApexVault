@@ -140,7 +140,7 @@ const Home = () => {
     }, [user, setStocks, setCoins, setLastUpdated]);
 
     return (
-        <div className='p-4 h-screen w-screen' style={{ backgroundImage: 'url("https://i.postimg.cc/xdLxBnDH/IMG-BG-001.jpg")', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}>
+        <div className='p-4 h-screen w-screen' style={{ backgroundImage: 'url("https://i.postimg.cc/0QpbqDrL/codioful-formerly-gradienta-b-KESVqfxass-unsplash.jpg")', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}>
 
             {loading ? (
                 <Spinner />
