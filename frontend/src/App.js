@@ -57,7 +57,6 @@ function App() {
             <Route path="/stocks/create" element={<CreateStocks />} />
             <Route path="/stocks/details/:id" element={<ShowStocks />} />
             <Route path="/stocks/edit/:id" element={<EditStocks />} />
-            {/* <Route path="/stocks/delete/:id" element={<DeleteStocks />} /> */}
           </Routes>
         </Router>
       </div>

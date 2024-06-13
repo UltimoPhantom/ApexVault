@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import Confetti from 'react-confetti';
 
-const ConfettiPortal = ({ isVisible, profitDetails, onClose }) => {
+const ConfettiPortal = ({ isVisible, profitDetails, onClose, id }) => {
     const [isConfettiVisible, setIsConfettiVisible] = useState(isVisible);
     const [statement, setStatement] = useState("")
     

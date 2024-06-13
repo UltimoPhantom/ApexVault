@@ -23,7 +23,7 @@ const StockDetail = ({ name, price, id, quantity, LTP }) => {
             <h2 className='text-cyan-300 mr-1'>Avg: {`${price}`}</h2>
           </div>
           <div className='flex items-center mt-5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out'>
-            <DeleteStock name={name} LTP={LTP} price={price} quantity={quantity} />
+            <DeleteStock name={name} LTP={LTP} price={price} quantity={quantity} id={id} />
           </div>
         </div>
       </div>

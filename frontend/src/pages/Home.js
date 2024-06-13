@@ -33,6 +33,7 @@ const Home = () => {
                     'Authorization': `Bearer ${user.token}`
                 }
             });
+            console.log("🤠🤠🤠 ",response.data)
             return response.data; 
         } catch (error) {
             console.error("Error fetching stocks:", error);
@@ -134,7 +135,6 @@ const Home = () => {
                 setLoading(false);
             }
         };
-  // No need to check for 'user' here, just call the FetchData function directly
 
         fetchData();
     }, [user, setStocks, setCoins, setLastUpdated]);
@@ -161,7 +161,7 @@ const Home = () => {
             <div className='w-full grid grid-cols-1 gap-3 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-5 my-6'> {/* Changed gap-2 to gap-3 and my-4 to my-6 */}
             {stocks && stocks.length > 0 ? (
                 stocks.map((stock, index) => (
-                <Stock key={index} name={stock.name} price={stock.price} id={stock.id} quantity={stock.quantity} LTP={stock.LTP} />
+                <Stock key={index} name={stock.name} price={stock.price} id={stock._id} quantity={stock.quantity} LTP={stock.LTP} />
                 ))
             ) : (
                 <p className='text-center col-span-full'>No stocks available</p>

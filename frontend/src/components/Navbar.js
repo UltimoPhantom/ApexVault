@@ -5,7 +5,7 @@ import GetHistChart from './GetHistChart';
 
 const Navbar = ({ investedVal, currentVal, name }) => {
 
-    const percentage = investedVal / (currentVal + investedVal) * 100;
+    const percentage = (currentVal - investedVal) / investedVal  * 100;
     const sign = percentage >= 0 ? '+' : '-';
     const color = sign === '+' ? 'text-green-500' : 'text-red-500';
     const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1);

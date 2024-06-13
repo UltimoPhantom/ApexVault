@@ -4,7 +4,7 @@ import axios from 'axios';
 import { MdOutlineDelete } from 'react-icons/md';
 import ConfettiPortal from './ConfettiPortal';
 
-const DeleteStock = ({ name, LTP, price, quantity }) => {
+const DeleteStock = ({ name, LTP, price, quantity, id }) => {
     const { user } = useAuthContext();
     const [isOpen, setIsOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -37,16 +37,12 @@ const DeleteStock = ({ name, LTP, price, quantity }) => {
     };
 
     const handleConfirmDelete = async () => {
-
-        const profitValue = 109;
         const investedAmt = quantity * price;
         const currAmt = quantity * LTP;
+        const percentage = (((currAmt - investedAmt) / investedAmt ))
 
-        setProfitDetails({investedAmt, currAmt})
+        setProfitDetails({investedAmt, currAmt, percentage})
 
-
-        console.log("🚀🚀 " , investedAmt , currAmt)
-        setProfitDetails({ name, profit: profitValue });
         setFadeClass('fade-out');
         setTimeout(() => {
             setIsOpen(false);
@@ -111,6 +107,7 @@ const DeleteStock = ({ name, LTP, price, quantity }) => {
                     isVisible={!!profitDetails}
                     profitDetails={profitDetails}
                     onClose={handleConfettiClose}
+                    id={id}
                 />
             )}
         </div>
