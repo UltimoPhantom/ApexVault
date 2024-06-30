@@ -9,8 +9,6 @@ import LogoutButton from '../components/LogoutButton';
 import AddStockButton from '../components/AddStockButton';
 import Navbar from '../components/Navbar';
 
-const aws_api_url = 'https://ddwtmrp2ib.execute-api.ap-southeast-2.amazonaws.com/default/apexValue_9'
-
 
 const Home = () => {
     const [stocks, setStocks] = useState([]);
@@ -42,23 +40,6 @@ const Home = () => {
 
     };
 
-    const callLambda = async () => {
-        try {
-            const now = new Date();
-            const datee = now.getDate();
-            const month = now.getDate();
-            const year = now.getDate();
-            const today = datee + " " + month + " " + year;
-                const response = await axios.get(aws_api_url);
-                // setInvested_val(response.data.currentVal)
-                // setcurrent_val(response.data.investedVal)
-                return
-        
-        } catch (error) {
-            console.log(error.message);
-            return []; 
-        }
-    };
 
     //not updating the price if its less than 12hrs
     const isUpdateRequired = (email) => {
@@ -140,7 +121,7 @@ const Home = () => {
     }, [user, setStocks, setCoins, setLastUpdated]);
 
     return (
-        <div className='p-4 h-screen w-screen' style={{ backgroundImage: 'url("https://i.postimg.cc/0QpbqDrL/codioful-formerly-gradienta-b-KESVqfxass-unsplash.jpg")', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}>
+        <div className='p-4 h-screen w-screen' style={{ backgroundImage: 'url("https://i.postimg.cc/xdLxBnDH/IMG-BG-001.jpg")', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' }}>
 
             {loading ? (
                 <Spinner />
