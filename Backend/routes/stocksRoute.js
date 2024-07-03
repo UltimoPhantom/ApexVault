@@ -10,7 +10,7 @@ import axios from "axios"; // Import Axios
 import { readFile } from 'fs/promises';
 import path from "path";
 import { fileURLToPath } from "url";
-import { dir } from "console";
+import { dir, log } from "console";
 import { aws_api_stockPriceSingle } from "../config.js";
 
 const router = express.Router();
@@ -103,17 +103,17 @@ router.get('/', async (req, res) => {
 });
 
 
-// Get one stock
-router.get('/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const stock = await Stock.findById(id);
-        return res.status(200).send(stock);
-    } catch (error) {
-        console.log(error);
-        res.status(500).send({ message: error.message });
-    }
-});
+// // Get one stock
+// router.get('/:id', async (req, res) => {
+//     try {
+//         const { id } = req.params;
+//         const stock = await Stock.findById(id);
+//         return res.status(200).send(stock);
+//     } catch (error) {
+//         console.log(error);
+//         res.status(500).send({ message: error.message });
+//     }
+// });
 
 // Updating
 router.put('/:id', async (req, res) => {
@@ -264,6 +264,21 @@ router.post('/addAlert', async(req, res) => {
         else {
             return res.status(400).send({ message: "Invalid Email" });
         }
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ message: error.message })
+    }
+})
+
+router.get('/getAlert', async(req, res) => {
+    try {
+        const { email } = req.body;
+        console.log("🫡🫡 ", email)
+        const alerts = await Alert.find({ email: email })
+        console.log("🚀🚀🚀 ")
+        console.log(alerts)
+        console.log("🚀🚀🚀")
+        return res.status(200).send({ alerts })
     } catch (error) {
         console.log(error);
         res.status(500).send({ message: error.message })
