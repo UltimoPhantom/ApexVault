@@ -20,6 +20,6 @@ def lambda_handler(event, context):
     
     
 e = {
-    "stockName":"RELIANCE"
+    "stockName":"506532"
 }
 print(lambda_handler(e,1))

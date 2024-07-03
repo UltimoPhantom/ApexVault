@@ -1,6 +1,7 @@
 import express from "express";
 import { Stock } from "../modules/stockModels.js";
 import requireAuth from "../middleware/requireAuth.js";
+import { Alert } from "../modules/alertModels.js";
 
 
 
@@ -247,5 +248,24 @@ router.post('/addStock', async(req, res) => {
     } catch(error) {
         console.log(error.message);
         res.status(500).send({message: error.message})
+    }
+})
+
+router.post('/addAlert', async(req, res) => {
+    try {
+        const { email, stockName, price, LTP } = req.body;
+
+        const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+        if(gmailRegex.test(email)) {
+            const newAlert = { stockName, email, price, LTP };
+            const alert = await Alert.create(newAlert);
+            return res.status(201).send(alert)
+        } 
+        else {
+            return res.status(400).send({ message: "Invalid Email" });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ message: error.message })
     }
 })
