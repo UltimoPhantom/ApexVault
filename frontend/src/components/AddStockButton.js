@@ -40,7 +40,7 @@ const CustomDialog = () => {
         } catch (error) {
         }
     }
-
+    //const { email, stockName, price, LTP } = req.body;
 
     const handleSubmit = async (e) => {
         e.preventDefault();

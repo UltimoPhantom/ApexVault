@@ -270,17 +270,17 @@ router.post('/addAlert', async(req, res) => {
     }
 })
 
-router.get('/getAlert', async(req, res) => {
+router.get('/getAlert', async (req, res) => {
     try {
-        const { email } = req.body;
-        console.log("🫡🫡 ", email)
-        const alerts = await Alert.find({ email: email })
-        console.log("🚀🚀🚀 ")
-        console.log(alerts)
-        console.log("🚀🚀🚀")
-        return res.status(200).send({ alerts })
+        const { email } = req.query; // Access email from query parameters
+        console.log("🫡🫡 ", email);
+        const alerts = await Alert.find({ email: email });
+        console.log("🚀🚀🚀 ");
+        console.log(alerts);
+        console.log("🚀🚀🚀");
+        return res.status(200).send({ alerts });
     } catch (error) {
         console.log(error);
-        res.status(500).send({ message: error.message })
+        res.status(500).send({ message: error.message });
     }
-})
+});

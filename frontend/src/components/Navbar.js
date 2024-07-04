@@ -1,7 +1,7 @@
 import React from 'react';
 import LogoutButton from './LogoutButton';
 import AddStockButton from './AddStockButton';
-import GetHistChart from './GetHistChart';
+import AddAlert from './AddAlert';
 
 const Navbar = ({ investedVal, currentVal, name }) => {
 
@@ -25,7 +25,7 @@ const Navbar = ({ investedVal, currentVal, name }) => {
             </div>
             <div className='flex flex-row items-center space-x-4'>
                 <AddStockButton />
-                <GetHistChart />
+                <AddAlert />
                 <LogoutButton />
             </div>
         </div>
