@@ -45,18 +45,7 @@ const AddAlert = () => {
                 throw new Error(errorData.message);
             }
 
-            // const jsonData = await response.json();
-            // setStocksData(jsonData); 
-            // const apiData = JSON.parse(jsonData);
-            // const stocks = apiData.map(item => ({
-            //     DATE: item.DATE,
-            //     CLOSE: item.CLOSE
-            // }));
-
-            // const newWindow = window.open("", "_blank");
-            // newWindow.document.title = "Stock Chart";
-            // newWindow.document.body.innerHTML = "<div id='stock-chart-container'></div>";
-            // ReactDOM.render(<StockChart stocks={stocks} />, newWindow.document.getElementById('stock-chart-container'));
+          
         }
         catch (error) {
             console.log('Error ', error);

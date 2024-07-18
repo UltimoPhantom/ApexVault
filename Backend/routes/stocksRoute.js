@@ -272,7 +272,8 @@ router.post('/addAlert', async(req, res) => {
 
 router.get('/getAlert', async (req, res) => {
     try {
-        const { email } = req.query; // Access email from query parameters
+        // const { email } = req.query; // Access email from query parameters
+        const email = "tejassujathagnks@gmail.com"
         console.log("🫡🫡 ", email);
         const alerts = await Alert.find({ email: email });
         console.log("🚀🚀🚀 ");
